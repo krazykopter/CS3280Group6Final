@@ -38,7 +38,7 @@ namespace Group6FinalProject.Items {
     /// <summary>
     /// wndItems
     /// </summary>
-    public partial class wndItems : System.Windows.Window, System.Windows.Markup.IComponentConnector {
+    public partial class WndItems : System.Windows.Window, System.Windows.Markup.IComponentConnector {
         
         private bool _contentLoaded;
         

@@ -17,9 +17,9 @@ namespace Group6FinalProject.Items
     /// <summary>
     /// Interaction logic for wndItems.xaml
     /// </summary>
-    public partial class wndItems : Window
+    public partial class WndItems : Window
     {
-        public wndItems()
+        public WndItems()
         {
             InitializeComponent();
         }

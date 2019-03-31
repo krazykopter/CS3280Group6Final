@@ -38,7 +38,7 @@ namespace Group6FinalProject.Search {
     /// <summary>
     /// wndSearch
     /// </summary>
-    public partial class wndSearch : System.Windows.Window, System.Windows.Markup.IComponentConnector {
+    public partial class WndSearch : System.Windows.Window, System.Windows.Markup.IComponentConnector {
         
         private bool _contentLoaded;
         

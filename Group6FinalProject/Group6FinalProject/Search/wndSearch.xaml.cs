@@ -17,9 +17,9 @@ namespace Group6FinalProject.Search
     /// <summary>
     /// Interaction logic for wndSearch.xaml
     /// </summary>
-    public partial class wndSearch : Window
+    public partial class WndSearch : Window
     {
-        public wndSearch()
+        public WndSearch()
         {
             InitializeComponent();
         }
