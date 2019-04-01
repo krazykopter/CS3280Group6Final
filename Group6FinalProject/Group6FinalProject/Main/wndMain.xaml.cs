@@ -19,9 +19,12 @@ namespace Group6FinalProject.Main
     /// </summary>
     public partial class WndMain : Window
     {
+        public static WndMain main;        
+
         public WndMain()
         {
             InitializeComponent();
+            main = this;
         }
 
         /// <summary>
@@ -79,6 +82,30 @@ namespace Group6FinalProject.Main
             {
                 throw ex;
             }
+        }
+
+        /// <summary>
+        /// Method to handle the click of the Update Table Menu Item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Window itemsWindow = new Items.WndItems();
+            itemsWindow.Visibility = Visibility.Visible;
+            main.Visibility = Visibility.Hidden;
+        }
+
+        /// <summary>
+        /// Method to handle the click of the Search Menu Item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SearchMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Window searchWindow = new Search.WndSearch();
+            searchWindow.Visibility = Visibility.Visible;
+            main.Visibility = Visibility.Hidden;
         }
     }
 }

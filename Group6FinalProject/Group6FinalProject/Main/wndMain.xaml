@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Group6FinalProject.Main"
         mc:Ignorable="d" Height="450" Width="800" Title="Invoice Manager ">
-    <Grid AllowDrop="True">
+    <Grid AllowDrop="True" Visibility="Visible">
         <StackPanel VerticalAlignment="Top">
             <Menu Width="Auto" Height="20">
-                <MenuItem Header="Update Table"/>
-                <MenuItem Header="Search"/>
+                <MenuItem x:Name="ItemsMenuItem" Header="Update Table" Click="ItemsMenuItem_Click"/>
+                <MenuItem x:Name="SearchMenuItem" Header="Search For Invoice
+" Click="SearchMenuItem_Click"/>
             </Menu>
         </StackPanel>
 
@@ -17,18 +18,25 @@
         <Button x:Name="EditInvoiceButton" Content="Edit Invoice" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="10,80,0,0" Height="24" FontWeight="Bold" FontSize="14" Click="EditInvoiceButton_Click"/>
         <Button x:Name="DeleteInvoiceButton" Content="Delete Invoice" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="10,120,0,0" Height="24" FontWeight="Bold" FontSize="14" Click="DeleteInvoiceButton_Click"/>
 
-        <Canvas x:Name="NewInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="495" Visibility="Hidden">
-            <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="355" VerticalAlignment="Top" Width="495">
-                <TextBox HorizontalAlignment="Left" Height="28" Margin="250,8,0,0" TextWrapping="Wrap" Text="$price" VerticalAlignment="Top" Width="122" FontWeight="Bold" FontSize="16" IsReadOnly="True" Background="#FFF3E49E" TextAlignment="Center" BorderThickness="2" BorderBrush="Black"/>
+        <Canvas x:Name="NewInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Hidden">
+            <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="355" VerticalAlignment="Top" Width="600">
+                <TextBox HorizontalAlignment="Left" Height="28" Margin="364,8,0,0" TextWrapping="Wrap" Text="$price" VerticalAlignment="Top" Width="122" FontWeight="Bold" FontSize="16" IsReadOnly="True" Background="#FFF3E49E" TextAlignment="Center" BorderThickness="2" BorderBrush="Black"/>
             </Border>
-            <Label x:Name="ItemLabel" Content="Item" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="151,46,0,0" FontWeight="Bold" FontSize="14"/>
-            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="224" Height="24" Canvas.Left="10" Canvas.Top="10"/>
-            <TextBlock x:Name="NewInvoiceTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Height="292" Width="475" Background="#FFF3E49E" Canvas.Left="10" Canvas.Top="53"><Run Text="Invoice header here with #"/><LineBreak/><Run Text="-----------------------------------------------------------------------------------------------"/><LineBreak/><Run Text="Invoice items will appear here (item name, price, qty?)"/></TextBlock>
-            <Button x:Name="AddItemButton" Content="Add Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="393" Canvas.Top="10"/>
+            <Label x:Name="ItemLabel" Content="Item" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Left="10" Canvas.Top="9"/>
+            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="307" Height="28" Canvas.Left="50" Canvas.Top="10"/>
+            <Button x:Name="AddItemButton" Content="Add Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="498" Canvas.Top="10"/>
+            <DataGrid Height="290" Canvas.Top="10" Width="505" GridLinesVisibility="All" Margin="40,39,0,0" BorderThickness="2" CanUserAddRows="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="InvoiceID" Width="60"/>
+                    <DataGridTextColumn Header="ItemName" Width="300"/>
+                    <DataGridTextColumn Header="Quantity"/>
+                    <DataGridTextColumn Header="Cost" Width="100"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </Canvas>
 
         <Canvas x:Name="EditInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="495" Visibility="Hidden"/>
-        
+
         <Canvas x:Name="DeleteInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="495" Visibility="Hidden"/>
 
 
