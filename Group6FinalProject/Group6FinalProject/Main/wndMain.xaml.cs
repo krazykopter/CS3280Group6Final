@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Reflection;
 
 namespace Group6FinalProject.Main
 {
@@ -19,7 +20,7 @@ namespace Group6FinalProject.Main
     /// </summary>
     public partial class WndMain : Window
     {
-        public static WndMain main;        
+        public static WndMain main;
 
         public WndMain()
         {
@@ -40,9 +41,9 @@ namespace Group6FinalProject.Main
                 EditInvoiceCanvas.Visibility = Visibility.Hidden;
                 DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw ex;
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -61,7 +62,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                throw ex;
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -80,7 +81,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                throw ex;
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -91,9 +92,16 @@ namespace Group6FinalProject.Main
         /// <param name="e"></param>
         private void ItemsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Window itemsWindow = new Items.WndItems();
-            itemsWindow.Visibility = Visibility.Visible;
-            main.Visibility = Visibility.Hidden;
+            try
+            {
+                Window itemsWindow = new Items.WndItems();
+                itemsWindow.Visibility = Visibility.Visible;
+                main.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
         /// <summary>
@@ -103,9 +111,34 @@ namespace Group6FinalProject.Main
         /// <param name="e"></param>
         private void SearchMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Window searchWindow = new Search.WndSearch();
-            searchWindow.Visibility = Visibility.Visible;
-            main.Visibility = Visibility.Hidden;
+            try
+            {
+                Window searchWindow = new Search.WndSearch();
+                searchWindow.Visibility = Visibility.Visible;
+                main.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// This method handles all exceptions that have risen from lower level methods
+        /// </summary>
+        /// <param name="sClass"> The class where the error occurred </param>
+        /// <param name="sMethod"> The method where the error occurred </param>
+        /// <param name="sMessage"> The error message from the exception </param>
+        private void HandleError(string sClass, string sMethod, string sMessage)
+        {
+            try
+            {
+                MessageBox.Show(sClass + "." + sMethod + " -> " + sMessage);
+            }
+            catch (System.Exception ex)
+            {
+                System.IO.File.AppendAllText(@"C:\Error.txt", Environment.NewLine + "HandleError Exception: " + ex.Message);
+            }
         }
     }
 }
