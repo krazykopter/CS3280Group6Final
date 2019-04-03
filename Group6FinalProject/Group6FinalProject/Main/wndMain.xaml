@@ -20,10 +20,10 @@
 
         <Canvas x:Name="NewInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Hidden">
             <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="355" VerticalAlignment="Top" Width="600">
-                <TextBox HorizontalAlignment="Left" Height="28" Margin="364,8,0,0" TextWrapping="Wrap" Text="$price" VerticalAlignment="Top" Width="122" FontWeight="Bold" FontSize="16" IsReadOnly="True" Background="#FFF3E49E" TextAlignment="Center" BorderThickness="2" BorderBrush="Black"/>
+                <TextBox x:Name="NewItemPriceBox" HorizontalAlignment="Left" Height="28" Margin="364,8,0,0" TextWrapping="Wrap" Text="$price" VerticalAlignment="Top" Width="122" FontWeight="Bold" FontSize="16" IsReadOnly="True" Background="#FFF3E49E" TextAlignment="Center" BorderThickness="2" BorderBrush="Black"/>
             </Border>
             <Label x:Name="ItemLabel" Content="Item" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Left="10" Canvas.Top="9"/>
-            <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="307" Height="28" Canvas.Left="50" Canvas.Top="10"/>
+            <ComboBox x:Name="NewInvoiceItemComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="307" Height="28" Canvas.Left="50" Canvas.Top="10"/>
             <Button x:Name="AddItemButton" Content="Add Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="498" Canvas.Top="10"/>
             <DataGrid Height="290" Canvas.Top="10" Width="505" GridLinesVisibility="All" Margin="40,39,0,0" BorderThickness="2" CanUserAddRows="True">
                 <DataGrid.Columns>
@@ -57,7 +57,6 @@
         </Canvas>
 
         <Canvas x:Name="DeleteInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Hidden">
-            <!--<Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="355" VerticalAlignment="Top" Width="600"/>-->
             <Button x:Name="DeleteInvoiceButton" Content="Delete Selected Invoice" Height="32" Canvas.Left="158" Canvas.Top="64" Width="197" FontWeight="Bold" FontSize="14"/>
 
             <Label x:Name="SelectInvoiceToDeleteLabel" Content="Select Invoice To Delete:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" FontSize="18"/>

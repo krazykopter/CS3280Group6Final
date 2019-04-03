@@ -18,14 +18,18 @@ namespace Group6FinalProject.Main
     /// <summary>
     /// Interaction logic for wndMain.xaml
     /// </summary>
+    /// </summary>
     public partial class WndMain : Window
     {
         public static WndMain main;
+        ClsMainLogic clsMainLogic;
 
         public WndMain()
         {
             InitializeComponent();
             main = this;
+            clsMainLogic = new ClsMainLogic();
+            ClsMainLogic.PopulateItemComboBox();
         }
 
         /// <summary>

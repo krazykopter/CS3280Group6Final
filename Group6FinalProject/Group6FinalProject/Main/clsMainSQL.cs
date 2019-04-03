@@ -12,7 +12,7 @@ namespace Group6FinalProject.Main
         /// This SQL gets all items in the database to populate the new invoice & edit invoice combo Boxes
         /// </summary>
         /// <returns>All data for the given invoice</returns>
-        public string SelectAllItemNames()
+        public static  string SelectAllItemNames()
         {
             string sSQL = "SELECT ItemDesc FROM ItemDesc";
             return sSQL;
@@ -23,7 +23,7 @@ namespace Group6FinalProject.Main
         /// </summary>
         /// <param name="itemCode">The Character that corresponds to the item identity</param>
         /// <returns>The cost for given item</returns>
-        public string SelectItemPrice(string itemCode)
+        public static string SelectItemPrice(string itemCode)
         {
             string sSQL = "SELECT Cost FROM ItemDesc WHERE ItemCode = " + itemCode;
             return sSQL;
@@ -33,7 +33,7 @@ namespace Group6FinalProject.Main
         /// This SQL gets all of the invoices to populate the "Select Invoice" combo box in the Edit Invoice tab of the Main window
         /// </summary>
         /// <returns>A list of all invoices</returns>
-        public string SelectAllInvoices()
+        public static string SelectAllInvoices()
         {
             string sSQL = "SELECT InvoiceNum, InvoiceDate FROM Invoices";
             return sSQL;
@@ -44,7 +44,7 @@ namespace Group6FinalProject.Main
         /// </summary>
         /// <param name="sInvoiceID">The InvoiceID for the Invoice in question</param>
         /// <returns>All data for the given invoice</returns>
-        public string SelectInvoiceItems(string invoiceID)
+        public static string SelectInvoiceItems(string invoiceID)
         {
             //SELECT* FROM(Invoices LEFT JOIN LineItems ON Invoices.InvoiceNum = LineItems.InvoiceNum) LEFT JOIN ItemDesc ON LineItems.ItemCode = ItemDesc.ItemCode WHERE Invoices.InvoiceNum = 5001
             string sSQL = "SELECT ItemDesc FROM (Invoices LEFT JOIN LineItems ON Invoices.InvoiceNum = LineItems.InvoiceNum) LEFT JOIN ItemDesc ON LineItems.ItemCode = ItemDesc.ItemCode WHERE Invoices.InvoiceNum = " + invoiceID;
