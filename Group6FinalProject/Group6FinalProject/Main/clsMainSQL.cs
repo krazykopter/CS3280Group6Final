@@ -14,7 +14,7 @@ namespace Group6FinalProject.Main
         /// <returns>All data for the given invoice</returns>
         public static  string SelectAllItemNames()
         {
-            string sSQL = "SELECT ItemDesc FROM ItemDesc";
+            string sSQL = "SELECT * FROM ItemDesc";
             return sSQL;
         }
 
@@ -35,7 +35,7 @@ namespace Group6FinalProject.Main
         /// <returns>A list of all invoices</returns>
         public static string SelectAllInvoices()
         {
-            string sSQL = "SELECT InvoiceNum, InvoiceDate FROM Invoices";
+            string sSQL = "SELECT * FROM Invoices";
             return sSQL;
         }
 

@@ -12,6 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Reflection;
+using System.Data;
+
+
+/* CARSON TO DO
+ * ------------
+ *  Move all code out of the UI
+ *  Determine how I can add rows to data grid (from object)
+ *  Add total price on invoice page
+*/
 
 namespace Group6FinalProject.Main
 {
@@ -163,8 +172,15 @@ namespace Group6FinalProject.Main
         {
             try
             {
+                var selection = Edit_SelectInvoiceComboBox.SelectedItem;
+                var invoiceID = ((Group6FinalProject.ClsInvoice)selection).invoiceNum.ToString();
+
+                ClsMainLogic.PopulateItemsForInvoice(invoiceID);
+
                 //get the invoice number,
                 // run query to fill in the item box & DATA GRID for selected invoice
+                Edit_AddItemComboBox.IsEnabled = true;
+                Edit_DeleteItemComboBox.IsEnabled = true;
             }
             catch(Exception ex)
             {
@@ -181,6 +197,11 @@ namespace Group6FinalProject.Main
         {
             try
             {
+                var selection = NewInvoice_ItemComboBox.SelectedItem;
+                var price = ((Group6FinalProject.ClsItem)selection).itemPrice;
+
+                WndMain.main.NewInvoice_PriceBox.Text = "$" + Decimal.Round(price,2);
+
                 //get the item id
                 //run query to fill in the price box for the selected item
             }
@@ -199,8 +220,20 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                //get the item id selected in the combo box
-                //add item to the list that will populate the data grid
+                //FIGURE OUT HOW TO BIND THE VALUES TO THE GRID
+                if(!string.IsNullOrEmpty(NewInvoice_ItemComboBox.Text))  //if the combo box contains a selection
+                {
+                    var selection = NewInvoice_ItemComboBox.SelectedItem;
+
+                    ClsItem ci = new ClsItem
+                    {
+                        itemCode = ((Group6FinalProject.ClsItem)selection).itemCode,
+                        itemDescription = ((Group6FinalProject.ClsItem)selection).itemDescription,
+                        itemPrice = ((Group6FinalProject.ClsItem)selection).itemPrice
+                    };
+
+                    NewInvoice_DataGrid.Items.Add(ci);
+                }
             }
             catch(Exception ex)
             {

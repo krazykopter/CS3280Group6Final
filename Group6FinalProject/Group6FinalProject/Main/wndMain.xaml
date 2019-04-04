@@ -20,31 +20,30 @@
 
         <Canvas x:Name="NewInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Hidden">
             <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="355" VerticalAlignment="Top" Width="600">
-                <TextBox x:Name="NewItemPriceBox" HorizontalAlignment="Left" Height="28" Margin="364,8,0,0" TextWrapping="Wrap" Text="$price" VerticalAlignment="Top" Width="122" FontWeight="Bold" FontSize="16" IsReadOnly="True" Background="#FFF3E49E" TextAlignment="Center" BorderThickness="2" BorderBrush="Black"/>
+                <TextBox x:Name="NewInvoice_PriceBox" HorizontalAlignment="Left" Height="28" Margin="364,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122" FontWeight="Bold" FontSize="16" IsReadOnly="True" Background="#FFF3E49E" TextAlignment="Center" BorderThickness="2" BorderBrush="Black"/>
             </Border>
             <Label x:Name="ItemLabel" Content="Item" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Left="10" Canvas.Top="9"/>
             <ComboBox x:Name="NewInvoice_ItemComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="307" Height="28" Canvas.Left="50" Canvas.Top="10" SelectionChanged="NewInvoice_ItemComboBox_SelectionChanged"/>
             <Button x:Name="AddItemButton" Content="Add Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="498" Canvas.Top="10" Click="NewInvoice_AddItemButton_Click"/>
-            <DataGrid Height="290" Canvas.Top="10" Width="505" GridLinesVisibility="All" Margin="40,39,0,0" BorderThickness="2" CanUserAddRows="True">
+            <DataGrid x:Name="NewInvoice_DataGrid" Height="290" Canvas.Top="10" Width="505" GridLinesVisibility="All" Margin="40,39,0,0" BorderThickness="2" CanUserAddRows="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ItemID" Width="60"/>
-                    <DataGridTextColumn Header="ItemName" Width="300"/>
-                    <DataGridTextColumn Header="Quantity"/>
+                    <DataGridTextColumn Header="ItemName" Width="342"/>
                     <DataGridTextColumn Header="Cost" Width="100"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Canvas>
 
-        <Canvas x:Name="EditInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Hidden">
+        <Canvas x:Name="EditInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Visible">
             <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="355" VerticalAlignment="Top" Width="600">
                 <Label x:Name="SelectInvoice" Content="Select Invoice:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Left="10" Canvas.Top="9"/>
             </Border>
             <ComboBox x:Name="Edit_SelectInvoiceComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="247" Canvas.Left="110" Canvas.Top="7" SelectionChanged="Edit_SelectInvoiceComboBox_SelectionChanged"/>
             <Label x:Name="EditItemLabel" Content="Add Item: " HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Left="10" Canvas.Top="36"/>
-            <ComboBox x:Name="Edit_AddItemComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="247" Height="28" Canvas.Left="110" Canvas.Top="37"/>
+            <ComboBox x:Name="Edit_AddItemComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="247" Height="28" Canvas.Left="110" Canvas.Top="37" IsEnabled="False"/>
             <Button x:Name="AddItemButtonEditWindow" Content="Add Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="118" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="362" Canvas.Top="37" Click="Edit_AddItemButton_Click"/>
             <Label x:Name="EditInvoiceDeleteLabel" Content="Delete Item: " HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Left="10" Canvas.Top="69"/>
-            <ComboBox x:Name="Edit_DeleteItemComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="247" Height="28" Canvas.Left="110" Canvas.Top="70"/>
+            <ComboBox x:Name="Edit_DeleteItemComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="247" Height="28" Canvas.Left="110" Canvas.Top="70" IsEnabled="False"/>
             <Button x:Name="DeleteItemEditWindowButton" Content="Delete Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="118" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="362" Canvas.Top="69" Click="DeleteItemEditWindowButton_Click"/>
             <DataGrid Height="222" Canvas.Top="117" Width="505" GridLinesVisibility="All" BorderThickness="2" CanUserAddRows="True" Canvas.Left="40">
                 <DataGrid.Columns>
@@ -56,7 +55,7 @@
             </DataGrid>
         </Canvas>
 
-        <Canvas x:Name="DeleteInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Visible">
+        <Canvas x:Name="DeleteInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Hidden">
             <Button x:Name="DeleteInvoiceButton" Content="Delete Selected Invoice" Height="32" Canvas.Left="158" Canvas.Top="64" Width="197" FontWeight="Bold" FontSize="14" Click="DeleteInvoiceButton_Click_1"/>
 
             <Label x:Name="SelectInvoiceToDeleteLabel" Content="Select Invoice To Delete:" Canvas.Left="10" Canvas.Top="10" FontWeight="Bold" FontSize="18"/>

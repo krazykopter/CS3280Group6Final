@@ -29,16 +29,31 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                // string sSQL = ClsMainSQL.
-                string sSQL = ClsMainSQL.SelectAllItemNames();
-                int iRet = 0;
+                List<string> list = new List<string>();
                 DataSet ds = new DataSet();
+                int iRetVal = 0;
 
-                ds = db.ExecuteSQLStatement(sSQL, ref iRet);                
+                string sSQL = ClsMainSQL.SelectAllItemNames();
 
-                for (int i = 0; i < iRet; i++)
+                ds = db.ExecuteSQLStatement(sSQL, ref iRetVal);
+
+                cb.Items.Clear();   //clear out previous list
+
+                for (int i = 0; i < iRetVal; i++)
                 {
-                    cb.Items.Add(ds.Tables[0].Rows[i][0]);
+                    ClsItem ci = new ClsItem
+                    {
+                        itemCode = ds.Tables[0].Rows[i][0].ToString(),
+                        itemDescription = ds.Tables[0].Rows[i][1].ToString(),
+                        itemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
+                    };
+
+                    cb.Items.Add(ci);
+
+                    //if (Decimal.TryParse(ds.Tables[0].Rows[i][2].ToString(), out var value))
+                    //{
+                    //    ci.itemPrice = value;
+                    //}
                 }
             }
             catch(Exception ex)
@@ -54,15 +69,26 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                string sSQL = ClsMainSQL.SelectAllInvoices();
-                int iRet = 0;
+                List<string> list = new List<string>();
                 DataSet ds = new DataSet();
+                int iRetVal = 0;
 
-                ds = db.ExecuteSQLStatement(sSQL, ref iRet);
+                string sSQL = ClsMainSQL.SelectAllInvoices();
 
-                for (int i = 0; i < iRet; i++)
+                ds = db.ExecuteSQLStatement(sSQL, ref iRetVal);
+
+                cb.Items.Clear();   //clear out previous list
+
+                for (int i = 0; i < iRetVal; i++)
                 {
-                    cb.Items.Add(ds.Tables[0].Rows[i][0]);
+                    ClsInvoice ci = new ClsInvoice
+                    {
+                        invoiceNum = ds.Tables[0].Rows[i][0].ToString(),
+                        invoiceDate = Convert.ToDateTime(ds.Tables[0].Rows[i][1].ToString()),
+                        totalCost = decimal.Parse(ds.Tables[0].Rows[i][2].ToString())
+                    };
+
+                    cb.Items.Add(ci);
                 }
             }
             catch(Exception ex)
@@ -84,6 +110,8 @@ namespace Group6FinalProject.Main
                 DataSet ds = new DataSet();
 
                 ds = db.ExecuteSQLStatement(sSQL, ref iRet);
+
+                WndMain.main.Edit_DeleteItemComboBox.Items.Clear(); //clear out previous list
 
                 for (int i = 0; i < iRet; i++)
                 {

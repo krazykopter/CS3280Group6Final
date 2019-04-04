@@ -60,6 +60,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="clsDataAccess.cs" />
+    <Compile Include="clsInvoice.cs" />
+    <Compile Include="clsItem.cs" />
     <Compile Include="clsSQL.cs" />
     <Compile Include="Items\clsSearchLogic.cs" />
     <Compile Include="Items\clsSearchSQL.cs" />
