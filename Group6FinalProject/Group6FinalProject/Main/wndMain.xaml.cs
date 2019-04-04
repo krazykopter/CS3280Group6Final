@@ -29,7 +29,11 @@ namespace Group6FinalProject.Main
             InitializeComponent();
             main = this;
             clsMainLogic = new ClsMainLogic();
-            ClsMainLogic.PopulateItemComboBox();
+        }
+
+        public static void PopulateComboBoxes()
+        {
+
         }
 
         /// <summary>
@@ -41,6 +45,7 @@ namespace Group6FinalProject.Main
         {
             try
             {
+                ClsMainLogic.PopulateItemComboBox(main.NewInvoice_ItemComboBox);    //populate combo boxes
                 NewInvoiceCanvas.Visibility = Visibility.Visible;
                 EditInvoiceCanvas.Visibility = Visibility.Hidden;
                 DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
@@ -60,6 +65,9 @@ namespace Group6FinalProject.Main
         {
             try
             {
+                ClsMainLogic.PopulateItemComboBox(main.Edit_AddItemComboBox);   //populate combo boxes
+                ClsMainLogic.PopulateInvoiceComboBox(main.Edit_SelectInvoiceComboBox);
+                //ClsMainLogic.PopulateItemsForInvoice("5001"); We will use the window to determine which invoice is selected to be passed into this method
                 EditInvoiceCanvas.Visibility = Visibility.Visible;
                 NewInvoiceCanvas.Visibility = Visibility.Hidden;
                 DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
@@ -79,6 +87,7 @@ namespace Group6FinalProject.Main
         {
             try
             {
+                ClsMainLogic.PopulateInvoiceComboBox(main.Delete_SelectInvoiceComboBox);    //populate combo box
                 DeleteInvoiceCanvas.Visibility = Visibility.Visible;
                 NewInvoiceCanvas.Visibility = Visibility.Hidden;
                 EditInvoiceCanvas.Visibility = Visibility.Hidden;
@@ -142,6 +151,114 @@ namespace Group6FinalProject.Main
             catch (System.Exception ex)
             {
                 System.IO.File.AppendAllText(@"C:\Error.txt", Environment.NewLine + "HandleError Exception: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Method that handles the changing of the Invoice Selection Box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Edit_SelectInvoiceComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                //get the invoice number,
+                // run query to fill in the item box & DATA GRID for selected invoice
+            }
+            catch(Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Method to handle the changing of the New Invoice Item Combo Box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NewInvoice_ItemComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                //get the item id
+                //run query to fill in the price box for the selected item
+            }
+            catch(Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// This function adds the selected item from the combo box to the invoice & data grid ON THE NEW INVOICE PAGE
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NewInvoice_AddItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //get the item id selected in the combo box
+                //add item to the list that will populate the data grid
+            }
+            catch(Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Adds the selected item from the combo box to the invoice & data grid ON THE EDIT INVOICE PAGE
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Edit_AddItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //get the item id selected in the combo box
+                //add item to the list that will populate the data grid            
+            }
+            catch(Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Deletes the item selected in the combo box from the invoice & data grid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteItemEditWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //get the item id selected in the combo box
+                //delete item from the list
+            }
+            catch(Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the invoice number from the combo box and deletes it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteInvoiceButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //get invoice id from combo box
+                // run query to delete the invoice
+            }
+            catch(Exception ex)
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
     }
