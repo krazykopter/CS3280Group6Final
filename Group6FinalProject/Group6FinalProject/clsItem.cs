@@ -8,9 +8,9 @@ namespace Group6FinalProject
 {
     class ClsItem
     {
-        public string itemCode;
-        public string itemDescription;
-        public decimal itemPrice;
+        public string ItemCode { get; set; }
+        public string ItemDescription { get; set; }
+        public decimal ItemPrice { get; set; }
 
         /// <summary>
         /// The to String override will dispaly the item description in the combo Box
@@ -18,7 +18,7 @@ namespace Group6FinalProject
         /// <returns></returns>
         public override string ToString()
         {
-            return itemDescription;
+            return ItemDescription;
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Windows.Controls;
+using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace Group6FinalProject.Main
 {
@@ -16,9 +18,53 @@ namespace Group6FinalProject.Main
         /// </summary>
         public static clsDataAccess db;
 
+        public static ObservableCollection<ClsItem> NewInvoiceItemsList;    //this will be used to keep track of the list of items while it is being built, before it is saved
+
         public ClsMainLogic()
         {
             db = new clsDataAccess(); //setup database clsDataAcess w/ class
+        }
+
+        /// <summary>
+        /// Hides all other Main Window Canvas' and shows New Invoice
+        /// </summary>
+        public static void ShowNewInvoiceCanvas()
+        {
+            WndMain.main.NewInvoiceCanvas.Visibility = Visibility.Visible;
+            WndMain.main.EditInvoiceCanvas.Visibility = Visibility.Hidden;
+            WndMain.main.DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
+        }
+
+        /// <summary>
+        /// Hides all other Main Window Canvas' and shows Edit Invoice
+        /// </summary>
+        public static void ShowEditInvoiceCanvas()
+        {
+            WndMain.main.EditInvoiceCanvas.Visibility = Visibility.Visible;
+            WndMain.main.NewInvoiceCanvas.Visibility = Visibility.Hidden;
+            WndMain.main.DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
+        }
+
+        /// <summary>
+        /// Hides all other Main Window Canvas' and shows Delete Invoice
+        /// </summary>
+        public static void ShowDeleteInvoiceCanvas()
+        {
+            WndMain.main.DeleteInvoiceCanvas.Visibility = Visibility.Visible;
+            WndMain.main.NewInvoiceCanvas.Visibility = Visibility.Hidden;
+            WndMain.main.EditInvoiceCanvas.Visibility = Visibility.Hidden;
+        }
+
+        /// <summary>
+        /// A simple method to create a collection to use while adding items to new invoice
+        /// </summary>
+        public static void NewInvoice_CreateNewItemCollection()
+        {
+            if(NewInvoiceItemsList != null)
+            {
+                NewInvoiceItemsList.Clear();
+            }
+            NewInvoiceItemsList = new ObservableCollection<ClsItem>();
         }
 
         /// <summary>
@@ -33,7 +79,7 @@ namespace Group6FinalProject.Main
                 DataSet ds = new DataSet();
                 int iRetVal = 0;
 
-                string sSQL = ClsMainSQL.SelectAllItemNames();
+                string sSQL = ClsMainSQL.SelectAllItems();
 
                 ds = db.ExecuteSQLStatement(sSQL, ref iRetVal);
 
@@ -43,9 +89,9 @@ namespace Group6FinalProject.Main
                 {
                     ClsItem ci = new ClsItem
                     {
-                        itemCode = ds.Tables[0].Rows[i][0].ToString(),
-                        itemDescription = ds.Tables[0].Rows[i][1].ToString(),
-                        itemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
+                        ItemCode = ds.Tables[0].Rows[i][0].ToString(),
+                        ItemDescription = ds.Tables[0].Rows[i][1].ToString(),
+                        ItemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
                     };
 
                     cb.Items.Add(ci);
@@ -83,9 +129,9 @@ namespace Group6FinalProject.Main
                 {
                     ClsInvoice ci = new ClsInvoice
                     {
-                        invoiceNum = ds.Tables[0].Rows[i][0].ToString(),
-                        invoiceDate = Convert.ToDateTime(ds.Tables[0].Rows[i][1].ToString()),
-                        totalCost = decimal.Parse(ds.Tables[0].Rows[i][2].ToString())
+                        InvoiceNum = ds.Tables[0].Rows[i][0].ToString(),
+                        InvoiceDate = Convert.ToDateTime(ds.Tables[0].Rows[i][1].ToString()),
+                        TotalCost = decimal.Parse(ds.Tables[0].Rows[i][2].ToString())
                     };
 
                     cb.Items.Add(ci);
@@ -101,23 +147,31 @@ namespace Group6FinalProject.Main
         /// Populate items on the edit invoice page
         /// </summary>
         /// <param name="invoiceID">Deteremines which invoice to pull items from</param>
-        public static void PopulateItemsForInvoice(string invoiceID)
+        public static void PopulateItemsForInvoice(string invoiceID, ComboBox cb)
         {
             try
             {
-                string sSQL = ClsMainSQL.SelectInvoiceItems(invoiceID);
-                int iRet = 0;
+                List<string> list = new List<string>();
                 DataSet ds = new DataSet();
+                int iRetVal = 0;
 
-                ds = db.ExecuteSQLStatement(sSQL, ref iRet);
+                string sSQL = ClsMainSQL.SelectInvoiceItems(invoiceID);
 
-                WndMain.main.Edit_DeleteItemComboBox.Items.Clear(); //clear out previous list
+                ds = db.ExecuteSQLStatement(sSQL, ref iRetVal);
 
-                for (int i = 0; i < iRet; i++)
+                cb.Items.Clear();   //clear out previous list
+
+                for (int i = 0; i < iRetVal; i++)
                 {
-                    WndMain.main.Edit_DeleteItemComboBox.Items.Add(ds.Tables[0].Rows[i][0]);
-                }
+                    ClsItem ci = new ClsItem
+                    {
+                        ItemCode = ds.Tables[0].Rows[i][0].ToString(),
+                        ItemDescription = ds.Tables[0].Rows[i][1].ToString(),
+                        ItemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
+                    };
 
+                    cb.Items.Add(ci);
+                }
             }
             catch(Exception ex)
             {
@@ -125,7 +179,27 @@ namespace Group6FinalProject.Main
             }
         }
 
+        /// <summary>
+        /// Populates the combo grid using a Collection as the user adds item to the new invoice
+        /// </summary>
+        public static void NewInvoice_AddNewItem()
+        {
+            if (!string.IsNullOrEmpty(WndMain.main.NewInvoice_ItemComboBox.Text))  //if the combo box contains a selection
+            {
 
+                var selection = WndMain.main.NewInvoice_ItemComboBox.SelectedItem;
+
+                ClsItem ci = new ClsItem
+                {
+                    ItemCode = ((Group6FinalProject.ClsItem)selection).ItemCode,
+                    ItemDescription = ((Group6FinalProject.ClsItem)selection).ItemDescription,
+                    ItemPrice = ((Group6FinalProject.ClsItem)selection).ItemPrice
+                };
+
+                NewInvoiceItemsList.Add(ci);
+                WndMain.main.NewInvoice_DataGrid.ItemsSource = NewInvoiceItemsList;
+            }
+        }
 
     }
 }

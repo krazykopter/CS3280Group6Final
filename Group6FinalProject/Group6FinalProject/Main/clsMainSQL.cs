@@ -12,7 +12,7 @@ namespace Group6FinalProject.Main
         /// This SQL gets all items in the database to populate the new invoice & edit invoice combo Boxes
         /// </summary>
         /// <returns>All data for the given invoice</returns>
-        public static  string SelectAllItemNames()
+        public static  string SelectAllItems()
         {
             string sSQL = "SELECT * FROM ItemDesc";
             return sSQL;
@@ -47,7 +47,7 @@ namespace Group6FinalProject.Main
         public static string SelectInvoiceItems(string invoiceID)
         {
             //SELECT* FROM(Invoices LEFT JOIN LineItems ON Invoices.InvoiceNum = LineItems.InvoiceNum) LEFT JOIN ItemDesc ON LineItems.ItemCode = ItemDesc.ItemCode WHERE Invoices.InvoiceNum = 5001
-            string sSQL = "SELECT ItemDesc FROM (Invoices LEFT JOIN LineItems ON Invoices.InvoiceNum = LineItems.InvoiceNum) LEFT JOIN ItemDesc ON LineItems.ItemCode = ItemDesc.ItemCode WHERE Invoices.InvoiceNum = " + invoiceID;
+            string sSQL = "SELECT LineItems.ItemCode, ItemDesc, Cost FROM (Invoices LEFT JOIN LineItems ON Invoices.InvoiceNum = LineItems.InvoiceNum) LEFT JOIN ItemDesc ON LineItems.ItemCode = ItemDesc.ItemCode WHERE Invoices.InvoiceNum = " + invoiceID;
             return sSQL;
         }
 

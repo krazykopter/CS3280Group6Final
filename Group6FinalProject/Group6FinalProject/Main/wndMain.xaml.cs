@@ -18,7 +18,6 @@ using System.Data;
 /* CARSON TO DO
  * ------------
  *  Move all code out of the UI
- *  Determine how I can add rows to data grid (from object)
  *  Add total price on invoice page
 */
 
@@ -33,16 +32,11 @@ namespace Group6FinalProject.Main
         public static WndMain main;
         ClsMainLogic clsMainLogic;
 
-        public WndMain()
+     public WndMain()
         {
             InitializeComponent();
             main = this;
             clsMainLogic = new ClsMainLogic();
-        }
-
-        public static void PopulateComboBoxes()
-        {
-
         }
 
         /// <summary>
@@ -55,9 +49,8 @@ namespace Group6FinalProject.Main
             try
             {
                 ClsMainLogic.PopulateItemComboBox(main.NewInvoice_ItemComboBox);    //populate combo boxes
-                NewInvoiceCanvas.Visibility = Visibility.Visible;
-                EditInvoiceCanvas.Visibility = Visibility.Hidden;
-                DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
+                ClsMainLogic.NewInvoice_CreateNewItemCollection();
+                ClsMainLogic.ShowNewInvoiceCanvas();
             }
             catch (Exception ex)
             {
@@ -74,12 +67,9 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                ClsMainLogic.PopulateItemComboBox(main.Edit_AddItemComboBox);   //populate combo boxes
-                ClsMainLogic.PopulateInvoiceComboBox(main.Edit_SelectInvoiceComboBox);
-                //ClsMainLogic.PopulateItemsForInvoice("5001"); We will use the window to determine which invoice is selected to be passed into this method
-                EditInvoiceCanvas.Visibility = Visibility.Visible;
-                NewInvoiceCanvas.Visibility = Visibility.Hidden;
-                DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
+                ClsMainLogic.PopulateItemComboBox(main.Edit_AddItemComboBox);               //populate Edit Add Item Combo Box
+                ClsMainLogic.PopulateInvoiceComboBox(main.Edit_SelectInvoiceComboBox);      //populate Edit Select Invoice Combo Box
+                ClsMainLogic.ShowEditInvoiceCanvas();
             }
             catch (Exception ex)
             {
@@ -97,9 +87,7 @@ namespace Group6FinalProject.Main
             try
             {
                 ClsMainLogic.PopulateInvoiceComboBox(main.Delete_SelectInvoiceComboBox);    //populate combo box
-                DeleteInvoiceCanvas.Visibility = Visibility.Visible;
-                NewInvoiceCanvas.Visibility = Visibility.Hidden;
-                EditInvoiceCanvas.Visibility = Visibility.Hidden;
+                ClsMainLogic.ShowDeleteInvoiceCanvas();
             }
             catch (Exception ex)
             {
@@ -146,24 +134,6 @@ namespace Group6FinalProject.Main
         }
 
         /// <summary>
-        /// This method handles all exceptions that have risen from lower level methods
-        /// </summary>
-        /// <param name="sClass"> The class where the error occurred </param>
-        /// <param name="sMethod"> The method where the error occurred </param>
-        /// <param name="sMessage"> The error message from the exception </param>
-        private void HandleError(string sClass, string sMethod, string sMessage)
-        {
-            try
-            {
-                MessageBox.Show(sClass + "." + sMethod + " -> " + sMessage);
-            }
-            catch (System.Exception ex)
-            {
-                System.IO.File.AppendAllText(@"C:\Error.txt", Environment.NewLine + "HandleError Exception: " + ex.Message);
-            }
-        }
-
-        /// <summary>
         /// Method that handles the changing of the Invoice Selection Box
         /// </summary>
         /// <param name="sender"></param>
@@ -173,9 +143,9 @@ namespace Group6FinalProject.Main
             try
             {
                 var selection = Edit_SelectInvoiceComboBox.SelectedItem;
-                var invoiceID = ((Group6FinalProject.ClsInvoice)selection).invoiceNum.ToString();
+                var invoiceID = ((Group6FinalProject.ClsInvoice)selection).InvoiceNum.ToString();
 
-                ClsMainLogic.PopulateItemsForInvoice(invoiceID);
+                ClsMainLogic.PopulateItemsForInvoice(invoiceID, Edit_DeleteItemComboBox);
 
                 //get the invoice number,
                 // run query to fill in the item box & DATA GRID for selected invoice
@@ -198,12 +168,11 @@ namespace Group6FinalProject.Main
             try
             {
                 var selection = NewInvoice_ItemComboBox.SelectedItem;
-                var price = ((Group6FinalProject.ClsItem)selection).itemPrice;
-
-                WndMain.main.NewInvoice_PriceBox.Text = "$" + Decimal.Round(price,2);
-
-                //get the item id
-                //run query to fill in the price box for the selected item
+                if(selection != null)
+                {
+                    var price = ((Group6FinalProject.ClsItem)selection).ItemPrice;
+                    WndMain.main.NewInvoice_PriceBox.Text = "$" + Decimal.Round(price, 2);
+                }
             }
             catch(Exception ex)
             {
@@ -220,20 +189,7 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                //FIGURE OUT HOW TO BIND THE VALUES TO THE GRID
-                if(!string.IsNullOrEmpty(NewInvoice_ItemComboBox.Text))  //if the combo box contains a selection
-                {
-                    var selection = NewInvoice_ItemComboBox.SelectedItem;
-
-                    ClsItem ci = new ClsItem
-                    {
-                        itemCode = ((Group6FinalProject.ClsItem)selection).itemCode,
-                        itemDescription = ((Group6FinalProject.ClsItem)selection).itemDescription,
-                        itemPrice = ((Group6FinalProject.ClsItem)selection).itemPrice
-                    };
-
-                    NewInvoice_DataGrid.Items.Add(ci);
-                }
+                ClsMainLogic.NewInvoice_AddNewItem();
             }
             catch(Exception ex)
             {
@@ -292,6 +248,24 @@ namespace Group6FinalProject.Main
             catch(Exception ex)
             {
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// This method handles all exceptions that have risen from lower level methods
+        /// </summary>
+        /// <param name="sClass"> The class where the error occurred </param>
+        /// <param name="sMethod"> The method where the error occurred </param>
+        /// <param name="sMessage"> The error message from the exception </param>
+        private void HandleError(string sClass, string sMethod, string sMessage)
+        {
+            try
+            {
+                MessageBox.Show(sClass + "." + sMethod + " -> " + sMessage);
+            }
+            catch (System.Exception ex)
+            {
+                System.IO.File.AppendAllText(@"C:\Error.txt", Environment.NewLine + "HandleError Exception: " + ex.Message);
             }
         }
     }

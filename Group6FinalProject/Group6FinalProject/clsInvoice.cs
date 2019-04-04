@@ -8,9 +8,9 @@ namespace Group6FinalProject
 {
     class ClsInvoice
     {
-        public string invoiceNum;
-        public DateTime invoiceDate;
-        public decimal totalCost;
+        public string InvoiceNum { get; set; }
+        public DateTime InvoiceDate { get; set; }
+        public decimal TotalCost { get; set; }
         //public List<string> items;  //not sure about this one currently?
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace Group6FinalProject
         /// <returns></returns>
         public override string ToString()
         {
-            return "Invoice #" + invoiceNum + " - " + invoiceDate;
+            return "Invoice #" + InvoiceNum + " - " + InvoiceDate;
         }
 
     }

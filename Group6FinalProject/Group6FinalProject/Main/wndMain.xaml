@@ -18,7 +18,7 @@
         <Button x:Name="EditInvoiceWindowButton" Content="Edit Invoice" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="10,80,0,0" Height="24" FontWeight="Bold" FontSize="14" Click="EditInvoiceButton_Click"/>
         <Button x:Name="DeleteInvoiceWindowButton" Content="Delete Invoice" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="10,120,0,0" Height="24" FontWeight="Bold" FontSize="14" Click="DeleteInvoiceButton_Click"/>
 
-        <Canvas x:Name="NewInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Hidden">
+        <Canvas x:Name="NewInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Visible">
             <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="355" VerticalAlignment="Top" Width="600">
                 <TextBox x:Name="NewInvoice_PriceBox" HorizontalAlignment="Left" Height="28" Margin="364,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122" FontWeight="Bold" FontSize="16" IsReadOnly="True" Background="#FFF3E49E" TextAlignment="Center" BorderThickness="2" BorderBrush="Black"/>
             </Border>
@@ -27,14 +27,14 @@
             <Button x:Name="AddItemButton" Content="Add Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="498" Canvas.Top="10" Click="NewInvoice_AddItemButton_Click"/>
             <DataGrid x:Name="NewInvoice_DataGrid" Height="290" Canvas.Top="10" Width="505" GridLinesVisibility="All" Margin="40,39,0,0" BorderThickness="2" CanUserAddRows="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ItemID" Width="60"/>
-                    <DataGridTextColumn Header="ItemName" Width="342"/>
-                    <DataGridTextColumn Header="Cost" Width="100"/>
+                    <DataGridTextColumn Header="Item Code" Width="70" Binding="{Binding ItemCode}"/>
+                    <DataGridTextColumn Header="Item Name" Width="342" Binding="{Binding ItemDescription}"/>
+                    <DataGridTextColumn Header="Item Price" Width="89" Binding="{Binding ItemPrice}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Canvas>
 
-        <Canvas x:Name="EditInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Visible">
+        <Canvas x:Name="EditInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Hidden">
             <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="355" VerticalAlignment="Top" Width="600">
                 <Label x:Name="SelectInvoice" Content="Select Invoice:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Left="10" Canvas.Top="9"/>
             </Border>
