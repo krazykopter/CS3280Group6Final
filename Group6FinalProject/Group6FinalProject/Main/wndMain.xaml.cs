@@ -32,9 +32,8 @@ namespace Group6FinalProject.Main
         public static WndMain main;
         // CHANGE (ADDED):
         Window searchWindow;
-        /* CHANGE (REMOVED):
+
         ClsMainLogic clsMainLogic;
-        */
 
         public WndMain()
         {
@@ -43,9 +42,8 @@ namespace Group6FinalProject.Main
             // CHANGE (ADDED): Make sure to close all additional windows in the application
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
-            /* CHANGE (REMOVED)
             clsMainLogic = new ClsMainLogic();
-            */
+
             // CHANGE (ADDED):
             searchWindow = new Search.WndSearch(main);
         }
