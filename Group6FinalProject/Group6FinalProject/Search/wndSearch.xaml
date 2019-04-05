@@ -21,8 +21,8 @@
 
       <DataGrid x:Name="dgdAllInvoices" Height="222" Canvas.Top="117" Width="505" GridLinesVisibility="All" BorderThickness="2" CanUserAddRows="True" Canvas.Left="40">
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Invoice Number" Width="60"/>
-          <DataGridTextColumn Header="Invoice Date" Width="300"/>
+          <DataGridTextColumn Header="Invoice Number" Width="200"/>
+          <DataGridTextColumn Header="Invoice Date" Width="200"/>
           <DataGridTextColumn Header="Total Charge"/>
         </DataGrid.Columns>
       </DataGrid>

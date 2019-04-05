@@ -45,6 +45,7 @@ namespace Group6FinalProject.Search
 
         #region Attributes
         private Window mainWindow;
+        public static clsDataAccess db;
         #endregion
 
         #region Constructor
@@ -56,6 +57,7 @@ namespace Group6FinalProject.Search
             InitializeComponent();
 
             this.mainWindow = mainWindow;
+            db = new clsDataAccess();
         }
 
         #endregion
