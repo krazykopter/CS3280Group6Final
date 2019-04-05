@@ -30,13 +30,24 @@ namespace Group6FinalProject.Main
     public partial class WndMain : Window
     {
         public static WndMain main;
+        // CHANGE (ADDED):
+        Window searchWindow;
+        /* CHANGE (REMOVED):
         ClsMainLogic clsMainLogic;
+        */
 
-     public WndMain()
+        public WndMain()
         {
             InitializeComponent();
             main = this;
+            // CHANGE (ADDED): Make sure to close all additional windows in the application
+            Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+            /* CHANGE (REMOVED)
             clsMainLogic = new ClsMainLogic();
+            */
+            // CHANGE (ADDED):
+            searchWindow = new Search.WndSearch(main);
         }
 
         /// <summary>
@@ -123,7 +134,9 @@ namespace Group6FinalProject.Main
         {
             try
             {
+                /* CHANGE (REMOVED):
                 Window searchWindow = new Search.WndSearch();
+                */
                 searchWindow.Visibility = Visibility.Visible;
                 main.Visibility = Visibility.Hidden;
             }

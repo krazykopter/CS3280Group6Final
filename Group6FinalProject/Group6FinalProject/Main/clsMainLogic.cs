@@ -11,7 +11,8 @@ using System.Collections.ObjectModel;
 
 namespace Group6FinalProject.Main
 {
-    class ClsMainLogic
+    // CHANGE: class ClsMainLogic TO:
+    static class ClsMainLogic
     {
         /// <summary>
         /// new database instance
@@ -20,10 +21,12 @@ namespace Group6FinalProject.Main
 
         public static ObservableCollection<ClsItem> NewInvoiceItemsList;    //this will be used to keep track of the list of items while it is being built, before it is saved
 
+        /* CHANGE (REMOVED):
         public ClsMainLogic()
         {
             db = new clsDataAccess(); //setup database clsDataAcess w/ class
         }
+        */
 
         /// <summary>
         /// Hides all other Main Window Canvas' and shows New Invoice
