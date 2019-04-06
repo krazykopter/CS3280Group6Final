@@ -40,16 +40,42 @@ namespace Group6FinalProject.Items
         update the current invoice, because it's item name (description) might have been updated
 
         */
-        #region Compiler
-
-        #endregion
         #region Attributes
+        /// <summary>
+        /// References wndItems
+        /// </summary>
+        private static WndItems wndItems; // taken from clsSearchLogic
 
+        /// <summary>
+        /// References the data access object
+        /// used to make queries to the database
+        /// </summary>
+        private static clsDataAccess db; // taken from clsSearchLogic
+
+        /// <summary>
+        /// List of items to be displayed in the wndItems data grid
+        /// </summary>
+        private static List<ClsItem> lItems; // taken from clsSearchLogic
+        
+        /// <summary>
+        /// The item code is used to search the database for a specific item
+        /// </summary>
+        private static string itemCode;
+
+        /// <summary>
+        /// The item cost is used to create or update the cost of an item in the database
+        /// </summary>
+        private static string itemCost;
+
+        /// <summary>
+        /// the item description is used to create or update the description of an item in the database
+        /// </summary>
+        private static string itemDesc;
         #endregion
         #region Methods
-        // I think these two checks are performed by clsMainLogic and that wndMain is supposed to have a menu option to open the wndItems form
+        // I think these two checks should be performed by clsMainLogic and that both should be false before allowing the user to open wndItems
         // refer to Group Assignment, the second to last paragraph starting with "The last form needed is..."
-        //////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
         /// This method checks to see if an invoice is being edited
         /// </summary>
@@ -87,17 +113,38 @@ namespace Group6FinalProject.Items
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
-        ///////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// This method sets the Search Window reference, data access object reference,
+        /// and initializes the invoice list. It is called first, from the Search Window constructor.
+        /// </summary>
+        /// <param name="newWndItems"></param>
+        /// <param name="newDb"></param>
+        public static void SetDB(WndItems newWndItems, clsDataAccess newDb) // taken from clsSearchLogic
+        {
+            try
+            {
+                wndItems = newWndItems;
+                db = newDb;
+                lItems = new List<ClsItem>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
 
         /// <summary>
         /// This method checks to see if an item is on any invoices
         /// </summary>
         /// <param name="itemCode"></param>
         /// <returns>if the item is on any invoices, return true. Otherwise return false</returns>
-        bool IsOnInvoice(string itemCode)
+        bool IsOnInvoice(string code)
         {
             try
             {
+                itemCode = code;
                 // TODO: Needs to pass the itemCode in to check whether or not it is on an invoice
                 // Check through every invoice, the first time it appears in an invoice, return true. Otherwise, return false
                 return false;
@@ -109,40 +156,44 @@ namespace Group6FinalProject.Items
         }
 
         /// <summary>
-        /// This method creates a new item
+        /// This method creates a new item and stores it in the database
         /// </summary>
-        /// <param name="itemCode"></param>
-        /// <param name="itemDesc"></param>
+        /// <param name="code"></param>
         /// <param name="cost"></param>
-        void NewItem(string itemCode, string itemDesc, int cost)
+        /// <param name="desc"></param>
+        void NewItem(string code, string cost, string desc)
         {
             try
             {
                 // TODO: takes the itemCode, itemDesc, and cost from the form and passes them into the clsItemsSQL
+                itemCode = code;
+                itemCost = cost;
+                itemDesc = desc;
+
             }
             catch (Exception ex)
             {
-
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
         /// <summary>
-        /// This method edits an item
+        /// This method edits an item and updates the database
         /// </summary>
         /// <param name="itemCode"></param>
         /// <param name="itemDesc"></param>
         /// <param name="cost"></param>
-        void EditItem(string itemCode, string itemDesc, int cost)
+        static void EditItem(string code, string cost, string desc)
         {
             try
             {
                 // TODO: takes itemCode, itemDesc, and cost from the form and edits stores the new itemDesc and new cost
+                itemCost = cost; // need to verify that this can convert to a monentary cost (either int or decimal/long)
+                itemDesc = desc;
                 // TODO: call the clsItemsSQL code to update this item
             }
             catch (Exception ex)
             {
-
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
@@ -160,7 +211,6 @@ namespace Group6FinalProject.Items
             }
             catch (Exception ex)
             {
-
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }

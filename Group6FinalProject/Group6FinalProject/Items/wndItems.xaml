@@ -7,8 +7,14 @@
         mc:Ignorable="d"
         Title="Items" Height="450" Width="800" Closing="Window_Closing">
     <Grid>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="399" Margin="10,10,0,0" VerticalAlignment="Top" Width="399"/>
-        <Button x:Name="newItemButton" Content="New Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="475,294,0,0" Height="24" FontWeight="Bold" FontSize="14" Click="NewItemButton_Click"/>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="399" Margin="10,10,0,0" VerticalAlignment="Top" Width="399" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Item Code" Width="75"/>
+                <DataGridTextColumn Header="Cost" Width="75"/>
+                <DataGridTextColumn Header="Description"/>
+            </DataGrid.Columns>
+        </DataGrid>
+            <Button x:Name="newItemButton" Content="New Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="475,294,0,0" Height="24" FontWeight="Bold" FontSize="14" Click="NewItemButton_Click"/>
         <Button x:Name="editItemButton" Content="Edit Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="475,340,0,0" Height="24" FontWeight="Bold" FontSize="14" Click="EditItemButton_Click"/>
         <Button x:Name="deleteItemButton" Content="Delete Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="475,385,0,0" Height="24" FontWeight="Bold" FontSize="14" Click="deleteItemButton_Click" RenderTransformOrigin="0.511,5.18"/>
 

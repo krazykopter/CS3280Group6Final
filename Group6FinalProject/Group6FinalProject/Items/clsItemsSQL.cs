@@ -26,44 +26,26 @@ namespace Group6FinalProject.Items
             need to warn the user with a message that tells the user which invoices that item is used on
         */
 
-        /*
-        /// <summary>
-        /// This SQL gets all data on an invoice for a given InvoiceID.
-        /// </summary>
-        /// <param name="sInvoiceID">The InvoiceID for the invoice to retrieve all data.</param>
-        /// <returns>All data for the given invoice.</returns>
-        public string SelectInvoiceData(string sInvoiceID)
-        {
-            string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID;
-            return sSQL;
-        }
-        */
-        // select ItemCode, ItemDesc, Cost from ItemDesc
-
         /// <summary>
         /// This SQL selects the ItemCode, ItemDesc, and Cost from the ItemDesc table
         /// </summary>
         /// <returns>all the data for each column selected</returns>
-        public static string selectItems()
+        public static string SelectItems()
         {
             string sSQL = "SELECT ItemCode, ItemDesc, Cost FROM ItemDesc";
             return sSQL;
         }
-
-        // select distinct(InvoiceNum) from LineItems where ItemCode = 'A'
 
         /// <summary>
         /// This SQL takes the itemCode as an argument and returns any invoice numbers that itemCode appears in
         /// </summary>
         /// <param name="itemCode"></param>
         /// <returns></returns>
-        public static string selectDistinctInvoice(string itemCode)
+        public static string SelectDistinctInvoice(string itemCode)
         {
             string sSQL = "SELECT distinct(InvoiceNum) FROM LineItems WHERE ItemCode = " + itemCode;
             return sSQL;
         }
-
-        // Update ItemDesc Set ItemDesc = 'abcdef', Cost = 123 where ItemCode = 'A'
 
         /// <summary>
         /// This SQL takes the itemCode, itemDesc, and cost as arguments and updates the item description and cost
@@ -72,35 +54,31 @@ namespace Group6FinalProject.Items
         /// <param name="cost"></param>
         /// <param name="itemCode"></param>
         /// <returns></returns>
-        public static string updateItem(string itemCode, string itemDesc, int cost)
+        public static string UpdateItem(string itemCode, string itemDesc, int cost)
         {
             string sSQL = "UPDATE ItemDesc SET ItemDesc = " + itemDesc + ", Cost = " + cost + " WHERE ItemCode = " + itemCode;
             return sSQL;
         }
 
-        // Insert into ItemDesc(ItemCode, ItemDesc, Cost) Values('ABC', 'blah', 321)
-
         /// <summary>
-        /// 
+        /// This SQL takes the arguments and creates a new item in the database
         /// </summary>
         /// <param name="itemCode"></param>
         /// <param name="itemDesc"></param>
         /// <param name="cost"></param>
         /// <returns></returns>
-        public static string insertItemDesc(string itemCode, string itemDesc, int cost)
+        public static string InsertItemDesc(string itemCode, string itemDesc, int cost)
         {
             string sSQL = "INSERT INTO ItemDesc(ItemCode, ItemDesc, Cost) Values('" + itemCode + "', '" + itemDesc + "', " + cost + ")";
             return sSQL;
         }
 
-        // Delete from ItemDesc Where ItemCode = 'ABC'
-
         /// <summary>
-        /// 
+        /// takes the item code and deletes that item from the database
         /// </summary>
         /// <param name="itemCode"></param>
         /// <returns></returns>
-        public static string deleteItemDesc(string itemCode)
+        public static string DeleteItemDesc(string itemCode)
         {
             string sSQL = "DELETE FROM ItemDesc WHERE ItemCode = '" + itemCode + "'";
             return sSQL;
