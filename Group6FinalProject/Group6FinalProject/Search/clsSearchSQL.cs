@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Group6FinalProject.Search
 {
-    static class clsSearchSQL
+    static class ClsSearchSQL
     {
         /// <summary>
         /// This SQL gets all data on all invoices in the database.

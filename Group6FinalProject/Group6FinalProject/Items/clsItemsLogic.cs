@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Group6FinalProject.Items
 {
     // The purpose of this form is to update the def table, which contains all the items for the business
-    class clsItemsLogic
+    class ClsItemsLogic
     {
         /*
         GUI:
@@ -54,7 +54,7 @@ namespace Group6FinalProject.Items
         /// This method checks to see if an invoice is being edited
         /// </summary>
         /// <returns>if a invoice is being edited, returns true</returns>
-        bool isInvoiceEdit()
+        bool IsInvoiceEdit()
         {
             try
             {
@@ -73,7 +73,7 @@ namespace Group6FinalProject.Items
         /// This method checks to see if a new invoice is being created
         /// </summary>
         /// <returns>if a new invoice is being created, returns true</returns>
-        bool isNewInvoice()
+        bool IsNewInvoice()
         {
             try
             {
@@ -94,7 +94,7 @@ namespace Group6FinalProject.Items
         /// </summary>
         /// <param name="itemCode"></param>
         /// <returns>if the item is on any invoices, return true. Otherwise return false</returns>
-        bool isOnInvoice(string itemCode)
+        bool IsOnInvoice(string itemCode)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace Group6FinalProject.Items
         /// <param name="itemCode"></param>
         /// <param name="itemDesc"></param>
         /// <param name="cost"></param>
-        void newItem(string itemCode, string itemDesc, int cost)
+        void NewItem(string itemCode, string itemDesc, int cost)
         {
             try
             {
@@ -133,7 +133,7 @@ namespace Group6FinalProject.Items
         /// <param name="itemCode"></param>
         /// <param name="itemDesc"></param>
         /// <param name="cost"></param>
-        void editItem(string itemCode, string itemDesc, int cost)
+        void EditItem(string itemCode, string itemDesc, int cost)
         {
             try
             {
@@ -151,11 +151,11 @@ namespace Group6FinalProject.Items
         /// This method deletes an item
         /// </summary>
         /// <param name="itemCode"></param>
-        void deleteItem(string itemCode)
+        void DeleteItem(string itemCode)
         {
             try
             {
-                isOnInvoice(itemCode); // TODO: implement in if statement to encapsulate the code
+                IsOnInvoice(itemCode); // TODO: implement in if statement to encapsulate the code
                 // TODO: call the clsItemsSQL code to delete this item
             }
             catch (Exception ex)

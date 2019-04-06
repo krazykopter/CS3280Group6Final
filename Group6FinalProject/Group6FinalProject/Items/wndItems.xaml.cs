@@ -31,13 +31,13 @@ namespace Group6FinalProject.Items
 
             this.mainWindow = mainWindow;
             db = new clsDataAccess();
-            err = new clsHandleError();
+            err = new ClsHandleError();
         }
         #endregion
         #region Attributes
         private Window mainWindow;
         public static clsDataAccess db;
-        public static clsHandleError err;
+        public static ClsHandleError err;
         #endregion
 
         #region Methods

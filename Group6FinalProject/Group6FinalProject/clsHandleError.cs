@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace Group6FinalProject
 {
-    public class clsHandleError
+    static public class ClsHandleError
     {
         /// <summary>
         /// This method handles all exceptions that have risen from lower level methods
@@ -15,7 +15,7 @@ namespace Group6FinalProject
         /// <param name="sClass"> The class where the error occurred </param>
         /// <param name="sMethod"> The method where the error occurred </param>
         /// <param name="sMessage"> The error message from the exception </param>
-        public void HandleError(string sClass, string sMethod, string sMessage)
+        public static void HandleError(string sClass, string sMethod, string sMessage)
         {
             try
             {

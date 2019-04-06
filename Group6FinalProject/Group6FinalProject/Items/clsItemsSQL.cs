@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Group6FinalProject.Items
 {
-    class clsItemsSQL
+    class ClsItemsSQL
     {
         /*
         The purpose of this form is to update the def table, which contains all the items for the business.

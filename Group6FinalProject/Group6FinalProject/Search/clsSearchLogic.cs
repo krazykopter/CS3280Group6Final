@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Group6FinalProject.Search
 {
-    static class clsSearchLogic
+    static class ClsSearchLogic
     {
 
         /*
@@ -38,7 +38,7 @@ namespace Group6FinalProject.Search
         #region Methods
         public static void getAllInvoices()
         {
-            string sql = clsSearchSQL.SelectAllInvoices();
+            string sql = ClsSearchSQL.SelectAllInvoices();
 
 
 
@@ -47,7 +47,7 @@ namespace Group6FinalProject.Search
         }
         #endregion
 
-        private static void displayInvoices(List<ClsInvoice> lInvoices)
+        private static void DisplayInvoices(List<ClsInvoice> lInvoices)
         {
             
         }

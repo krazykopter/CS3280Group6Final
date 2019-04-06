@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Group6FinalProject.Items
 {
-    class clsSearchLogic
+    class ClsSearchLogic
     {
     }
 }
