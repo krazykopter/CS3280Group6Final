@@ -33,6 +33,8 @@ namespace Group6FinalProject.Main
         // CHANGE (ADDED):
         Window searchWindow;
 
+        public static ClsHandleError err;
+
         ClsMainLogic clsMainLogic;
 
         public WndMain()
@@ -41,6 +43,8 @@ namespace Group6FinalProject.Main
             main = this;
             // CHANGE (ADDED): Make sure to close all additional windows in the application
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+            err = new ClsHandleError();
 
             clsMainLogic = new ClsMainLogic();
 
@@ -63,7 +67,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -82,7 +86,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -100,7 +104,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -119,7 +123,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -140,7 +144,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -163,9 +167,9 @@ namespace Group6FinalProject.Main
                 Edit_AddItemComboBox.IsEnabled = true;
                 Edit_DeleteItemComboBox.IsEnabled = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -179,15 +183,15 @@ namespace Group6FinalProject.Main
             try
             {
                 var selection = NewInvoice_ItemComboBox.SelectedItem;
-                if(selection != null)
+                if (selection != null)
                 {
                     var price = ((Group6FinalProject.ClsItem)selection).ItemPrice;
                     WndMain.main.NewInvoice_PriceBox.Text = "$" + Decimal.Round(price, 2);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -202,9 +206,9 @@ namespace Group6FinalProject.Main
             {
                 ClsMainLogic.NewInvoice_AddNewItem();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -220,9 +224,9 @@ namespace Group6FinalProject.Main
                 //get the item id selected in the combo box
                 //add item to the list that will populate the data grid            
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -238,9 +242,9 @@ namespace Group6FinalProject.Main
                 //get the item id selected in the combo box
                 //delete item from the list
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -256,10 +260,10 @@ namespace Group6FinalProject.Main
                 //get invoice id from combo box
                 // run query to delete the invoice
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
-
+    }
 }
