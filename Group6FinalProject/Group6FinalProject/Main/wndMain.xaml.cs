@@ -33,7 +33,7 @@ namespace Group6FinalProject.Main
         // CHANGE (ADDED):
         Window searchWindow;
 
-        public static ClsHandleError err;
+        //public static ClsHandleError err;
 
         ClsMainLogic clsMainLogic;
 
@@ -44,7 +44,7 @@ namespace Group6FinalProject.Main
             // CHANGE (ADDED): Make sure to close all additional windows in the application
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
-            err = new ClsHandleError();
+            //err = new ClsHandleError();
 
             clsMainLogic = new ClsMainLogic();
 
@@ -67,7 +67,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -86,7 +86,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -104,7 +104,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -123,7 +123,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -144,7 +144,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -169,7 +169,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -191,7 +191,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -208,7 +208,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -226,7 +226,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -244,7 +244,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -262,7 +262,7 @@ namespace Group6FinalProject.Main
             }
             catch (Exception ex)
             {
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
     }

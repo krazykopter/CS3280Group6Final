@@ -19,17 +19,13 @@
       <Button x:Name="btnClearSelection" Content="Clear Selection" HorizontalAlignment="Left" VerticalAlignment="Top" Width="118" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="1" BorderBrush="Black" Canvas.Left="427" Canvas.Top="36" Click="btnClearSelection_Click"/>
 
 
-      <DataGrid x:Name="dgdAllInvoices" Height="222" Canvas.Top="117" Width="505" GridLinesVisibility="All" BorderThickness="2" CanUserAddRows="True" Canvas.Left="40">
-        <DataGrid.Columns>
-          <DataGridTextColumn Header="Invoice Number" Width="200"/>
-          <DataGridTextColumn Header="Invoice Date" Width="200"/>
-          <DataGridTextColumn Header="Total Charge"/>
-        </DataGrid.Columns>
+      <DataGrid x:Name="dgdAllInvoices" Height="222" Canvas.Top="117" Width="505" GridLinesVisibility="All" BorderThickness="2" CanUserAddRows="False" Canvas.Left="40">
       </DataGrid>
+      <Label x:Name="lblSelectionHelp" Content="*Please Make a Selection" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Canvas.Left="602" Canvas.Top="243" Foreground="Red" Visibility="Hidden"/>
 
     </Canvas>
 
-    <Button x:Name="btnSelectInvoice" Content="Select Invoice" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="667,320,0,0" Height="24" FontWeight="Bold" FontSize="14" BorderThickness="2" Click="btnSelectInvoice_Click"/>
-    <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Height="24" FontWeight="Bold" FontSize="14" Margin="667,370,0,0" Click="btnCancel_Click"/>
+    <Button x:Name="btnSelectInvoice" Content="Select Invoice" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="658,320,0,0" Height="24" FontWeight="Bold" FontSize="14" BorderThickness="2" Click="btnSelectInvoice_Click"/>
+    <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Height="24" FontWeight="Bold" FontSize="14" Margin="658,370,0,0" Click="btnCancel_Click"/>
   </Grid>
 </Window>

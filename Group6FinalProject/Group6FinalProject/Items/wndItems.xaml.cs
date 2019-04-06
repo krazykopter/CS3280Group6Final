@@ -31,13 +31,13 @@ namespace Group6FinalProject.Items
 
             this.mainWindow = mainWindow;
             db = new clsDataAccess();
-            err = new ClsHandleError();
+            //err = new ClsHandleError();
         }
         #endregion
         #region Attributes
         private Window mainWindow;
         public static clsDataAccess db;
-        public static ClsHandleError err;
+        //public static ClsHandleError err;
         #endregion
 
         #region Methods
@@ -51,7 +51,7 @@ namespace Group6FinalProject.Items
             catch (Exception ex)
             {
 
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Group6FinalProject.Items
             catch (Exception ex)
             {
 
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
 
@@ -78,7 +78,7 @@ namespace Group6FinalProject.Items
             catch (Exception ex)
             {
 
-                err.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
         #endregion
