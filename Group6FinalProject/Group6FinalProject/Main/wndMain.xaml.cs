@@ -47,9 +47,10 @@ namespace Group6FinalProject.Main
             //err = new ClsHandleError();
 
             clsMainLogic = new ClsMainLogic();
-
+            clsWindowManager.MainWindow = main;
             // CHANGE (ADDED):
-            searchWindow = new Search.WndSearch(main);
+            searchWindow = new Search.WndSearch();
+            clsWindowManager.SearchWindow = searchWindow;
         }
 
         /// <summary>

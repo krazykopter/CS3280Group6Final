@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Group6FinalProject
 {
-    class ClsInvoice
+    public class ClsInvoice
     {
         public string InvoiceNum { get; set; }
         public DateTime InvoiceDate { get; set; }

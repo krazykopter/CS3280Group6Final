@@ -29,16 +29,30 @@ namespace Group6FinalProject.Search
          * because it gives the windows a consistent look.
          */
 
-        #region Attributes
-        /// <summary>
-        /// Reference to the main window (wndMain)
-        /// </summary>
-        private Window mainWindow;
+        #region Attributes        
         /// <summary>
         /// References the data access object
         /// used to make queries to the database
         /// </summary>
         private static clsDataAccess db;
+        /// <summary>
+        /// reference to the invoice selected by the user
+        /// </summary>
+        private static ClsInvoice selectedInvoice;
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Used to give main window access to the selected invoice
+        /// </summary>
+        public static ClsInvoice SelectedInvoice
+        {
+            // read only
+            get
+            {
+                return selectedInvoice;
+            }
+        }
         #endregion
 
 
@@ -48,13 +62,12 @@ namespace Group6FinalProject.Search
         /// Passes reference of the Search Window and data access object to clsSearchLogic
         /// </summary>
         /// <param name="mainWindow"></param>
-        public WndSearch(Window mainWindow)
+        public WndSearch()
         {
             try
             {
                 InitializeComponent();
 
-                this.mainWindow = mainWindow;
                 db = new clsDataAccess();
 
                 clsSearchLogic.setDB(this, db);
@@ -185,17 +198,13 @@ namespace Group6FinalProject.Search
                 // call a method in mainWindow and pass it the selected invoice object. (if a selection was made)
                 if (dgdAllInvoices.SelectedIndex > -1)
                 {
-                    // FIXME (Carson): THIS METHOD NEEDS TO BE IMPLEMENTED IN THE MAIN WINDOW AND UNCOMMENTED
-                    //mainWindow.displaySearchedInvoice((ClsInvoice) dgdAllInvoices.SelectedItem);
-
-                    // COMMENT OUT, TESTING ONLY
-                    // ClsInvoice test = (ClsInvoice) dgdAllInvoices.SelectedItem;
+                    // set the selectedInvoice attribute for mainWindow to access
+                    selectedInvoice = (ClsInvoice) dgdAllInvoices.SelectedItem;
 
                     resetSearchWindow();
 
-                    // display the main window instead of the search window
-                    mainWindow.Visibility = Visibility.Visible;
-                    this.Visibility = Visibility.Hidden;
+                    // hide the search window
+                    clsWindowManager.showMainWindow();
                 }
                 else
                 {
@@ -225,8 +234,7 @@ namespace Group6FinalProject.Search
             {
                 resetSearchWindow();
 
-                mainWindow.Visibility = Visibility.Visible;
-                this.Visibility = Visibility.Hidden;
+                clsWindowManager.showMainWindow();
             }
             catch (Exception ex)
             {
@@ -250,15 +258,14 @@ namespace Group6FinalProject.Search
             {
                 // only allowed to run if application isn't already closing down 
                 // (prevent exception of accessing previously closed windows)
-                if (mainWindow.IsVisible || this.IsVisible)
+                if (this.IsVisible)
                 {
                     // we only have one instance of this window, make sure the user doesn't destroy it.
                     e.Cancel = true;
 
                     resetSearchWindow();
 
-                    mainWindow.Visibility = Visibility.Visible;
-                    this.Visibility = Visibility.Hidden;
+                    clsWindowManager.showMainWindow();
                 }
             }
             catch (Exception ex)
