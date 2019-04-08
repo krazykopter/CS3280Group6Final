@@ -132,20 +132,7 @@ namespace Group6FinalProject.Search
         {
             try
             {
-                string sDateOnly = "";
-
-                // coming in the date looks like "4/23/2018 12:00:00 AM" cut off the time
-                // to show all purchases made that day
-                for (int i = 0; i < newInvoiceDate.Length; i++)
-                {
-                    if (newInvoiceDate[i] == ' ')
-                    {
-                        break;
-                    }
-                    sDateOnly += newInvoiceDate[i];
-                }
-
-                invoiceDate = sDateOnly;
+                invoiceDate = newInvoiceDate;
 
                 customInvoiceList();
             }
@@ -357,8 +344,12 @@ namespace Group6FinalProject.Search
         {
             try
             {
+                string sDate = "";
+                string sDateOnly = "";
+
                 // create lists of invoice dates and total costs to be ordered for display
                 List<DateTime> lDates = new List<DateTime>();
+                List<string> slDates = new List<string>();
                 List<decimal> lTotalCosts = new List<decimal>();
 
                 // iterate through the list of invoices and add them to the combo boxes
@@ -372,19 +363,38 @@ namespace Group6FinalProject.Search
                     lTotalCosts.Add(invoice.TotalCost);
                 }
 
-                // get rid of any duplicates in the lists
-                lDates = lDates.Distinct().ToList();
-                lTotalCosts = lTotalCosts.Distinct().ToList();
-
                 // order the lists
                 lDates.Sort();
                 lTotalCosts.Sort();
 
+                // make a new list of dates only to get rid of duplicates (ex: 4/25/18 1AM and 4/25/18 2AM) 
+                foreach (DateTime date in lDates)
+                {
+                    sDate = date.ToString();
+                    sDateOnly = "";
+
+                    // coming in the date looks like "4/23/2018 12:00:00 AM" cut off the time
+                    // to show all purchases made that day
+                    for (int i = 0; i < sDate.Length; i++)
+                    {
+                        if (sDate[i] == ' ')
+                        {
+                            break;
+                        }
+                        sDateOnly += sDate[i];
+                    }
+                    slDates.Add(sDateOnly);
+                }
+
+                // get rid of any duplicates in the lists
+                slDates = slDates.Distinct().ToList();
+                lTotalCosts = lTotalCosts.Distinct().ToList();                
+
                 // populate the invoice date combo box
-                foreach (DateTime iDate in lDates)
+                foreach (string date in slDates)
                 {
                     // display the invoice date in cboInvoiceDate
-                    WndSearch1.cboInvoiceDate.Items.Add(iDate);
+                    WndSearch1.cboInvoiceDate.Items.Add(date);
                 }
 
                 // populate the total cost combo box
