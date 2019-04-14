@@ -71,20 +71,17 @@ namespace Group6FinalProject.Main
         /// <summary>
         /// this function will fill any combo box that requires a list of all items from the DB
         /// </summary>
-        /// <param name="cb">The ComboBox to be filled</param>
-        public static void PopulateItemComboBox(ComboBox cb)
+        public static List<ClsItem> PopulateItemComboBox()
         {
             try
             {
-                List<string> list = new List<string>();
+                List<ClsItem> itemList = new List<ClsItem>();
                 DataSet ds = new DataSet();
                 int iRetVal = 0;
 
                 string sSQL = ClsMainSQL.SelectAllItems();
 
                 ds = db.ExecuteSQLStatement(sSQL, ref iRetVal);
-
-                cb.Items.Clear();   //clear out previous list
 
                 for (int i = 0; i < iRetVal; i++)
                 {
@@ -95,13 +92,10 @@ namespace Group6FinalProject.Main
                         ItemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
                     };
 
-                    cb.Items.Add(ci);
-
-                    //if (Decimal.TryParse(ds.Tables[0].Rows[i][2].ToString(), out var value))
-                    //{
-                    //    ci.itemPrice = value;
-                    //}
+                    itemList.Add(ci);
                 }
+
+                return itemList;
             }
             catch(Exception ex)
             {
@@ -112,19 +106,18 @@ namespace Group6FinalProject.Main
         /// <summary>
         /// Populate combo box that need a list of all invoices
         /// </summary>
-        public static void PopulateInvoiceComboBox(ComboBox cb)
+        public static List<ClsInvoice> PopulateInvoiceComboBox()
         {
             try
             {
-                List<string> list = new List<string>();
+                List<ClsInvoice> invoiceList = new List<ClsInvoice>();
+
                 DataSet ds = new DataSet();
                 int iRetVal = 0;
 
                 string sSQL = ClsMainSQL.SelectAllInvoices();
 
                 ds = db.ExecuteSQLStatement(sSQL, ref iRetVal);
-
-                cb.Items.Clear();   //clear out previous list
 
                 for (int i = 0; i < iRetVal; i++)
                 {
@@ -135,8 +128,10 @@ namespace Group6FinalProject.Main
                         TotalCost = decimal.Parse(ds.Tables[0].Rows[i][2].ToString())
                     };
 
-                    cb.Items.Add(ci);
+                    invoiceList.Add(ci);
                 }
+
+                return invoiceList;
             }
             catch(Exception ex)
             {
@@ -148,19 +143,18 @@ namespace Group6FinalProject.Main
         /// Populate items on the edit invoice page
         /// </summary>
         /// <param name="invoiceID">Deteremines which invoice to pull items from</param>
-        public static void PopulateItemsForInvoice(string invoiceID, ComboBox cb)
+        public static List<ClsItem> PopulateItemsForInvoice(string invoiceID)
         {
             try
             {
-                List<string> list = new List<string>();
+                List<ClsItem> itemsList = new List<ClsItem>();
+
                 DataSet ds = new DataSet();
                 int iRetVal = 0;
 
                 string sSQL = ClsMainSQL.SelectInvoiceItems(invoiceID);
 
                 ds = db.ExecuteSQLStatement(sSQL, ref iRetVal);
-
-                cb.Items.Clear();   //clear out previous list
 
                 for (int i = 0; i < iRetVal; i++)
                 {
@@ -170,9 +164,10 @@ namespace Group6FinalProject.Main
                         ItemDescription = ds.Tables[0].Rows[i][1].ToString(),
                         ItemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
                     };
-
-                    cb.Items.Add(ci);
+                    itemsList.Add(ci);
                 }
+
+                return itemsList;
             }
             catch(Exception ex)
             {
@@ -181,15 +176,13 @@ namespace Group6FinalProject.Main
         }
 
         /// <summary>
-        /// Populates the combo grid using a Collection as the user adds item to the new invoice
+        /// /// Populates the data grid using a Collection as the user adds item to the new invoice
         /// </summary>
-        public static void NewInvoice_AddNewItem()
+        /// <param name="selection">object used to find info in combo box</param>
+        public static void NewInvoice_AddNewItem(object selection)
         {
-            if (!string.IsNullOrEmpty(WndMain.main.NewInvoice_ItemComboBox.Text))  //if the combo box contains a selection
+            try
             {
-
-                var selection = WndMain.main.NewInvoice_ItemComboBox.SelectedItem;
-
                 ClsItem ci = new ClsItem
                 {
                     ItemCode = ((Group6FinalProject.ClsItem)selection).ItemCode,
@@ -198,7 +191,10 @@ namespace Group6FinalProject.Main
                 };
 
                 NewInvoiceItemsList.Add(ci);
-                WndMain.main.NewInvoice_DataGrid.ItemsSource = NewInvoiceItemsList;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 

@@ -62,7 +62,15 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                ClsMainLogic.PopulateItemComboBox(main.NewInvoice_ItemComboBox);    //populate combo boxes
+                NewInvoice_ItemComboBox.Items.Clear();
+
+                var itemList = ClsMainLogic.PopulateItemComboBox();    //populate combo boxes
+
+                foreach(ClsItem i in itemList)
+                {
+                    NewInvoice_ItemComboBox.Items.Add(i);
+                }
+
                 ClsMainLogic.NewInvoice_CreateNewItemCollection();
                 ClsMainLogic.ShowNewInvoiceCanvas();
             }
@@ -81,8 +89,23 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                ClsMainLogic.PopulateItemComboBox(main.Edit_AddItemComboBox);               //populate Edit Add Item Combo Box
-                ClsMainLogic.PopulateInvoiceComboBox(main.Edit_SelectInvoiceComboBox);      //populate Edit Select Invoice Combo Box
+                Edit_AddItemComboBox.Items.Clear();
+                Edit_SelectInvoiceComboBox.Items.Clear();
+
+                var itemList = ClsMainLogic.PopulateItemComboBox();    //populate combo boxes
+
+                foreach (ClsItem i in itemList)
+                {
+                    Edit_AddItemComboBox.Items.Add(i);
+                }
+
+                var invoiceList = ClsMainLogic.PopulateInvoiceComboBox();
+
+                foreach(ClsInvoice i in invoiceList)
+                {
+                    Edit_SelectInvoiceComboBox.Items.Add(i);
+                }
+
                 ClsMainLogic.ShowEditInvoiceCanvas();
             }
             catch (Exception ex)
@@ -100,7 +123,13 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                ClsMainLogic.PopulateInvoiceComboBox(main.Delete_SelectInvoiceComboBox);    //populate combo box
+                var invoiceList = ClsMainLogic.PopulateInvoiceComboBox();
+
+                foreach (ClsInvoice i in invoiceList)
+                {
+                    Delete_SelectInvoiceComboBox.Items.Add(i);
+                }
+
                 ClsMainLogic.ShowDeleteInvoiceCanvas();
             }
             catch (Exception ex)
@@ -161,7 +190,14 @@ namespace Group6FinalProject.Main
                 var selection = Edit_SelectInvoiceComboBox.SelectedItem;
                 var invoiceID = ((Group6FinalProject.ClsInvoice)selection).InvoiceNum.ToString();
 
-                ClsMainLogic.PopulateItemsForInvoice(invoiceID, Edit_DeleteItemComboBox);
+                Edit_DeleteItemComboBox.Items.Clear();
+
+                var itemsList = ClsMainLogic.PopulateItemsForInvoice(invoiceID);
+
+                foreach(ClsItem i in itemsList)
+                {
+                    Edit_DeleteItemComboBox.Items.Add(i);
+                }
 
                 //get the invoice number,
                 // run query to fill in the item box & DATA GRID for selected invoice
@@ -205,7 +241,15 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                ClsMainLogic.NewInvoice_AddNewItem();
+                if (!string.IsNullOrEmpty(NewInvoice_ItemComboBox.Text))  //if the combo box contains a selection
+                {
+                    var selection = NewInvoice_ItemComboBox.SelectedItem;
+
+
+                    ClsMainLogic.NewInvoice_AddNewItem(selection);
+                    NewInvoice_DataGrid.ItemsSource = ClsMainLogic.NewInvoiceItemsList;
+                }
+
             }
             catch (Exception ex)
             {
