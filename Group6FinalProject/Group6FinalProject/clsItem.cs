@@ -10,7 +10,7 @@ namespace Group6FinalProject
     {
         public string ItemCode { get; set; }
         public string ItemDescription { get; set; }
-        public decimal ItemPrice { get; set; }
+        public int ItemPrice { get; set; }
 
         /// <summary>
         /// The to String override will dispaly the item description in the combo Box

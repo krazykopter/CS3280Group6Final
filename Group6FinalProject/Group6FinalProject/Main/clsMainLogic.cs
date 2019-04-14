@@ -24,37 +24,7 @@ namespace Group6FinalProject.Main
         {
             db = new clsDataAccess(); //setup database clsDataAcess w/ class
         }
-        
-
-        /// <summary>
-        /// Hides all other Main Window Canvas' and shows New Invoice
-        /// </summary>
-        public static void ShowNewInvoiceCanvas()
-        {
-            WndMain.main.NewInvoiceCanvas.Visibility = Visibility.Visible;
-            WndMain.main.EditInvoiceCanvas.Visibility = Visibility.Hidden;
-            WndMain.main.DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
-        }
-
-        /// <summary>
-        /// Hides all other Main Window Canvas' and shows Edit Invoice
-        /// </summary>
-        public static void ShowEditInvoiceCanvas()
-        {
-            WndMain.main.EditInvoiceCanvas.Visibility = Visibility.Visible;
-            WndMain.main.NewInvoiceCanvas.Visibility = Visibility.Hidden;
-            WndMain.main.DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
-        }
-
-        /// <summary>
-        /// Hides all other Main Window Canvas' and shows Delete Invoice
-        /// </summary>
-        public static void ShowDeleteInvoiceCanvas()
-        {
-            WndMain.main.DeleteInvoiceCanvas.Visibility = Visibility.Visible;
-            WndMain.main.NewInvoiceCanvas.Visibility = Visibility.Hidden;
-            WndMain.main.EditInvoiceCanvas.Visibility = Visibility.Hidden;
-        }
+       
 
         /// <summary>
         /// A simple method to create a collection to use while adding items to new invoice
@@ -89,7 +59,8 @@ namespace Group6FinalProject.Main
                     {
                         ItemCode = ds.Tables[0].Rows[i][0].ToString(),
                         ItemDescription = ds.Tables[0].Rows[i][1].ToString(),
-                        ItemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
+                        //ItemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
+                        ItemPrice = Int32.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
                     };
 
                     itemList.Add(ci);
@@ -162,7 +133,8 @@ namespace Group6FinalProject.Main
                     {
                         ItemCode = ds.Tables[0].Rows[i][0].ToString(),
                         ItemDescription = ds.Tables[0].Rows[i][1].ToString(),
-                        ItemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
+                        //ItemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
+                        ItemPrice = Int32.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
                     };
                     itemsList.Add(ci);
                 }
@@ -193,6 +165,63 @@ namespace Group6FinalProject.Main
                 NewInvoiceItemsList.Add(ci);
             }
             catch(Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// this method calculates the total price of all objects in the invoice
+        /// </summary>
+        public static int CalculateInvoiceTotal()
+        {   
+            try
+            {
+                int totalAmount = 0;
+
+                foreach (ClsItem i in NewInvoiceItemsList)
+                {
+                    totalAmount += i.ItemPrice;
+                }
+
+                return totalAmount;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// saves the newly created invoice and adds the items to it
+        /// </summary>
+        public static void SaveNewInvoice()
+        {
+            try
+            {
+                //Pull the SQL Strings
+                string invoiceNumSQL = ClsMainSQL.SelectNewInvoiceNumber();     //the biggest invoice number that exists + 1
+
+                //Get all values needed
+                string invoiceNum = db.ExecuteScalarSQL(invoiceNumSQL);
+                var currentDate = DateTime.Now.ToShortDateString();
+                int totalPrice = CalculateInvoiceTotal();
+
+                //get string to add the invoice database
+                string newInvoiceSQL = ClsMainSQL.SaveNewInvoice(invoiceNum, currentDate, totalPrice);
+                db.ExecuteNonQuery(newInvoiceSQL);
+
+                int lineItemNumber = 1;
+
+                //go through each item in the list and write to the database under the same invoice number
+                foreach(ClsItem i in NewInvoiceItemsList)
+                {
+                    string addSQL = ClsMainSQL.AddItemToInvoice(invoiceNum, lineItemNumber++, i.ItemCode);
+                    db.ExecuteNonQuery(addSQL);
+                }
+
+            }
+            catch (Exception ex)
             {
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }

@@ -41,14 +41,12 @@ namespace Group6FinalProject.Main
         {
             InitializeComponent();
             main = this;
-            // CHANGE (ADDED): Make sure to close all additional windows in the application
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
             //err = new ClsHandleError();
 
             clsMainLogic = new ClsMainLogic();
             clsWindowManager.MainWindow = main;
-            // CHANGE (ADDED):
             searchWindow = new Search.WndSearch();
             clsWindowManager.SearchWindow = searchWindow;
         }
@@ -72,7 +70,7 @@ namespace Group6FinalProject.Main
                 }
 
                 ClsMainLogic.NewInvoice_CreateNewItemCollection();
-                ClsMainLogic.ShowNewInvoiceCanvas();
+                ShowNewInvoiceCanvas();
             }
             catch (Exception ex)
             {
@@ -106,7 +104,7 @@ namespace Group6FinalProject.Main
                     Edit_SelectInvoiceComboBox.Items.Add(i);
                 }
 
-                ClsMainLogic.ShowEditInvoiceCanvas();
+                ShowEditInvoiceCanvas();
             }
             catch (Exception ex)
             {
@@ -130,7 +128,7 @@ namespace Group6FinalProject.Main
                     Delete_SelectInvoiceComboBox.Items.Add(i);
                 }
 
-                ClsMainLogic.ShowDeleteInvoiceCanvas();
+                ShowDeleteInvoiceCanvas();
             }
             catch (Exception ex)
             {
@@ -179,7 +177,7 @@ namespace Group6FinalProject.Main
         }
 
         /// <summary>
-        /// Method that handles the changing of the Invoice Selection Box
+        /// Method that handles the changing of the Invoice Selection Box & enabling of other UI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -199,14 +197,73 @@ namespace Group6FinalProject.Main
                     Edit_DeleteItemComboBox.Items.Add(i);
                 }
 
-                //get the invoice number,
-                // run query to fill in the item box & DATA GRID for selected invoice
                 Edit_AddItemComboBox.IsEnabled = true;
                 Edit_DeleteItemComboBox.IsEnabled = true;
             }
             catch (Exception ex)
             {
                 ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Hides all other Main Window Canvas' and shows New Invoice
+        /// </summary>
+        public static void ShowNewInvoiceCanvas()
+        {
+            main.NewInvoiceCanvas.Visibility = Visibility.Visible;
+            main.EditInvoiceCanvas.Visibility = Visibility.Hidden;
+            main.DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
+        }
+
+        /// <summary>
+        /// Hides all other Main Window Canvas' and shows Edit Invoice
+        /// </summary>
+        public static void ShowEditInvoiceCanvas()
+        {
+            try
+            {
+                main.EditInvoiceCanvas.Visibility = Visibility.Visible;
+                main.NewInvoiceCanvas.Visibility = Visibility.Hidden;
+                main.DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Hides all other Main Window Canvas' and shows Delete Invoice
+        /// </summary>
+        public static void ShowDeleteInvoiceCanvas()
+        {
+            try
+            {
+                main.DeleteInvoiceCanvas.Visibility = Visibility.Visible;
+                main.NewInvoiceCanvas.Visibility = Visibility.Hidden;
+                main.EditInvoiceCanvas.Visibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Hides all other main window sub windows
+        /// </summary>
+        public static void ShowLandingPage()
+        {
+            try
+            {
+                main.DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
+                main.NewInvoiceCanvas.Visibility = Visibility.Hidden;
+                main.EditInvoiceCanvas.Visibility = Visibility.Hidden;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
@@ -245,9 +302,9 @@ namespace Group6FinalProject.Main
                 {
                     var selection = NewInvoice_ItemComboBox.SelectedItem;
 
-
                     ClsMainLogic.NewInvoice_AddNewItem(selection);
                     NewInvoice_DataGrid.ItemsSource = ClsMainLogic.NewInvoiceItemsList;
+                    NewInvoice_TotalPriceBox.Text = "$" + ClsMainLogic.CalculateInvoiceTotal();
                 }
 
             }
@@ -306,6 +363,59 @@ namespace Group6FinalProject.Main
                 // run query to delete the invoice
             }
             catch (Exception ex)
+            {
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Cancels the invoice and resets the data collection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NewInvoice_CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+           try
+            {
+                NewInvoiceCancelFunction();
+            }
+            catch(Exception ex)
+            {
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// pulled out be a method so it can also be used to clear the screen when the user saves an invoice
+        /// </summary>
+        private void NewInvoiceCancelFunction()
+        {
+            try
+            {
+                ShowLandingPage();                          //return to the main screen
+                ClsMainLogic.NewInvoiceItemsList.Clear();   //clear the list that populates the data grid
+                NewInvoice_PriceBox.Text = "";              //reset price display box
+                NewInvoice_TotalPriceBox = "";              //reset order total display box
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// this method handles the clicks for the save button on the new invoice window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NewInvoice_SaveInvoiceButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ClsMainLogic.SaveNewInvoice();
+                NewInvoiceCancelFunction();         //clear the screen after save as well
+            }
+            catch(Exception ex)
             {
                 ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }

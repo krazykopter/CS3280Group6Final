@@ -51,5 +51,37 @@ namespace Group6FinalProject.Main
             return sSQL;
         }
 
+        /// <summary>
+        /// Find the biggest previous number and add 1
+        /// </summary>
+        /// <returns></returns>
+        public static string SelectNewInvoiceNumber()
+        {
+            string sSQL = "SELECT MAX(InvoiceNum)+1 FROM Invoices";
+            return sSQL;
+        }
+
+        /// <summary>
+        /// Execute Non-Query to create new invoice in db
+        /// </summary>
+        /// <returns></returns>
+        public static string SaveNewInvoice(string invoiceNumber, string currentDate, int totalPrice)
+        {
+            string sSQL = "INSERT INTO Invoices(InvoiceNum, InvoiceDate, TotalCost) VALUES" +
+                            "(" + invoiceNumber + ", '" + currentDate + "', " + totalPrice + ")";
+            return sSQL;
+        }
+
+        /// <summary>
+        /// Used for a non query to insert an item into a invoice in the db
+        /// </summary>
+        /// <returns></returns>
+        public static string AddItemToInvoice(string invoiceNumber, int lineItemNumber, string itemCode)
+        {
+            string sSQL = "INSERT INTO LineItems(InvoiceNum, LineItemNum, ItemCode) VALUES" +
+                          "(" + invoiceNumber + ", " +  lineItemNumber + ", '" + itemCode + "')";
+
+            return sSQL;
+        }
     }
 }
