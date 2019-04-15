@@ -395,7 +395,7 @@ namespace Group6FinalProject.Main
                 ShowLandingPage();                          //return to the main screen
                 ClsMainLogic.NewInvoiceItemsList.Clear();   //clear the list that populates the data grid
                 NewInvoice_PriceBox.Text = "";              //reset price display box
-                NewInvoice_TotalPriceBox = "";              //reset order total display box
+                NewInvoice_TotalPriceBox.Text = "";              //reset order total display box
             }
             catch (Exception ex)
             {
