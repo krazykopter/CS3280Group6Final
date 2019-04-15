@@ -69,7 +69,7 @@ namespace Group6FinalProject.Main
                     NewInvoice_ItemComboBox.Items.Add(i);
                 }
 
-                ClsMainLogic.NewInvoice_CreateNewItemCollection();
+                ClsMainLogic.CreateNewItemCollection();
                 ShowNewInvoiceCanvas();
             }
             catch (Exception ex)
@@ -199,6 +199,8 @@ namespace Group6FinalProject.Main
                     Edit_DeleteItemComboBox.Items.Add(i);
                 }
 
+                Edit_DataGrid.ItemsSource = itemsList;
+
                 Edit_AddItemComboBox.IsEnabled = true;
                 Edit_DeleteItemComboBox.IsEnabled = true;
             }
@@ -312,7 +314,7 @@ namespace Group6FinalProject.Main
                     var selection = NewInvoice_ItemComboBox.SelectedItem;
 
                     ClsMainLogic.NewInvoice_AddNewItem(selection);
-                    NewInvoice_DataGrid.ItemsSource = ClsMainLogic.NewInvoiceItemsList;
+                    NewInvoice_DataGrid.ItemsSource = ClsMainLogic.InvoiceItemsList;
                     NewInvoice_TotalPriceBox.Text = "$" + ClsMainLogic.CalculateInvoiceTotal();
                 }
 
@@ -384,7 +386,7 @@ namespace Group6FinalProject.Main
             try
             {
                 ShowLandingPage();                          //return to the main screen
-                ClsMainLogic.NewInvoiceItemsList.Clear();   //clear the list that populates the data grid
+                ClsMainLogic.InvoiceItemsList.Clear();   //clear the list that populates the data grid
                 NewInvoice_PriceBox.Text = "";              //reset price display box
                 NewInvoice_TotalPriceBox.Text = "";         //reset order total display box
             }

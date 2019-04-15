@@ -18,7 +18,7 @@ namespace Group6FinalProject.Main
         /// </summary>
         public static clsDataAccess db;
 
-        public static ObservableCollection<ClsItem> NewInvoiceItemsList;    //this will be used to keep track of the list of items while it is being built, before it is saved
+        public static ObservableCollection<ClsItem> InvoiceItemsList;    //this will be used to keep track of the list of items while it is being built, before it is saved
 
         public ClsMainLogic()
         {
@@ -29,13 +29,13 @@ namespace Group6FinalProject.Main
         /// <summary>
         /// A simple method to create a collection to use while adding items to new invoice
         /// </summary>
-        public static void NewInvoice_CreateNewItemCollection()
+        public static void CreateNewItemCollection()
         {
-            if(NewInvoiceItemsList != null)
+            if(InvoiceItemsList != null)
             {
-                NewInvoiceItemsList.Clear();
+                InvoiceItemsList.Clear();
             }
-            NewInvoiceItemsList = new ObservableCollection<ClsItem>();
+            InvoiceItemsList = new ObservableCollection<ClsItem>();
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Group6FinalProject.Main
                     ItemPrice = ((Group6FinalProject.ClsItem)selection).ItemPrice
                 };
 
-                NewInvoiceItemsList.Add(ci);
+                InvoiceItemsList.Add(ci);
             }
             catch(Exception ex)
             {
@@ -179,7 +179,7 @@ namespace Group6FinalProject.Main
             {
                 int totalAmount = 0;
 
-                foreach (ClsItem i in NewInvoiceItemsList)
+                foreach (ClsItem i in InvoiceItemsList)
                 {
                     totalAmount += i.ItemPrice;
                 }
@@ -214,7 +214,7 @@ namespace Group6FinalProject.Main
                 int lineItemNumber = 1;
 
                 //go through each item in the list and write to the database under the same invoice number
-                foreach(ClsItem i in NewInvoiceItemsList)
+                foreach(ClsItem i in InvoiceItemsList)
                 {
                     string addSQL = ClsMainSQL.AddItemToInvoice(invoiceNum, lineItemNumber++, i.ItemCode);
                     db.ExecuteNonQuery(addSQL);
