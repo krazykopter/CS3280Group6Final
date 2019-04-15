@@ -121,6 +121,8 @@ namespace Group6FinalProject.Main
         {
             try
             {
+                Delete_SelectInvoiceComboBox.Items.Clear(); //clear the previous list to avoid duplicates
+
                 var invoiceList = ClsMainLogic.PopulateInvoiceComboBox();
 
                 foreach (ClsInvoice i in invoiceList)
@@ -211,9 +213,16 @@ namespace Group6FinalProject.Main
         /// </summary>
         public static void ShowNewInvoiceCanvas()
         {
-            main.NewInvoiceCanvas.Visibility = Visibility.Visible;
-            main.EditInvoiceCanvas.Visibility = Visibility.Hidden;
-            main.DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
+            try
+            {
+                main.NewInvoiceCanvas.Visibility = Visibility.Visible;
+                main.EditInvoiceCanvas.Visibility = Visibility.Hidden;
+                main.DeleteInvoiceCanvas.Visibility = Visibility.Hidden;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -351,24 +360,6 @@ namespace Group6FinalProject.Main
         }
 
         /// <summary>
-        /// Gets the invoice number from the combo box and deletes it
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DeleteInvoiceButton_Click_1(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                //get invoice id from combo box
-                // run query to delete the invoice
-            }
-            catch (Exception ex)
-            {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
-            }
-        }
-
-        /// <summary>
         /// Cancels the invoice and resets the data collection
         /// </summary>
         /// <param name="sender"></param>
@@ -395,7 +386,7 @@ namespace Group6FinalProject.Main
                 ShowLandingPage();                          //return to the main screen
                 ClsMainLogic.NewInvoiceItemsList.Clear();   //clear the list that populates the data grid
                 NewInvoice_PriceBox.Text = "";              //reset price display box
-                NewInvoice_TotalPriceBox.Text = "";              //reset order total display box
+                NewInvoice_TotalPriceBox.Text = "";         //reset order total display box
             }
             catch (Exception ex)
             {
@@ -416,6 +407,28 @@ namespace Group6FinalProject.Main
                 NewInvoiceCancelFunction();         //clear the screen after save as well
             }
             catch(Exception ex)
+            {
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the invoice number from the combo box and deletes it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteInvoice_DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {       
+                var selection = Delete_SelectInvoiceComboBox.SelectedItem;                  //get the selected invoice number
+                var invoiceNum = ((Group6FinalProject.ClsInvoice)selection).InvoiceNum;
+
+                ClsMainLogic.DeleteInvoice(invoiceNum);                                     //send it to the business logic to complete
+
+                ShowLandingPage();
+            }
+            catch (Exception ex)
             {
                 ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }

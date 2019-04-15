@@ -227,5 +227,25 @@ namespace Group6FinalProject.Main
             }
         }
 
+        /// <summary>
+        /// uses SQL to delete invoice in the entire database including line items
+        /// </summary>
+        /// <param name="invoiceNumber"></param>
+        public static void DeleteInvoice(string invoiceNumber)
+        {
+            try
+            {
+                string delLineItems = ClsMainSQL.DeleteInvoiceLineItems(invoiceNumber);
+                string delInvoice = ClsMainSQL.DeleteInvoice(invoiceNumber);
+
+                db.ExecuteNonQuery(delLineItems);
+                db.ExecuteNonQuery(delInvoice);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
     }
 }
