@@ -26,7 +26,7 @@
             <Label x:Name="ItemLabel" Content="Item" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Left="10" Canvas.Top="9"/>
             <ComboBox x:Name="NewInvoice_ItemComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="307" Height="28" Canvas.Left="50" Canvas.Top="10" SelectionChanged="NewInvoice_ItemComboBox_SelectionChanged"/>
             <Button x:Name="AddItemButton" Content="Add Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="498" Canvas.Top="10" Click="NewInvoice_AddItemButton_Click"/>
-            <DataGrid x:Name="NewInvoice_DataGrid" Height="261" Canvas.Top="49" Width="505" GridLinesVisibility="All" BorderThickness="2" CanUserAddRows="True" Canvas.Left="40" AutoGenerateColumns="False">
+            <DataGrid x:Name="NewInvoice_DataGrid" Height="261" Canvas.Top="49" Width="505" GridLinesVisibility="All" BorderThickness="2"  Canvas.Left="40" AutoGenerateColumns="False" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Item Code" Width="70" Binding="{Binding ItemCode}"/>
                     <DataGridTextColumn Header="Item Name" Width="342" Binding="{Binding ItemDescription}"/>
@@ -35,14 +35,16 @@
             </DataGrid>
             <Button x:Name="NewInvoice_SaveInvoiceButton" Content="Save Invoice" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="498" Canvas.Top="317" Click="NewInvoice_SaveInvoiceButton_Click"/>
             <Button x:Name="NewInvoice_CancelButton" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="401" Canvas.Top="317" Click="NewInvoice_CancelButton_Click"/>
-            <TextBox x:Name="NewInvoice_TotalPriceBox" HorizontalAlignment="Left" Height="28" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderThickness="2" BorderBrush="Black" TextAlignment="Center" FontWeight="Bold" FontSize="14" Background="#FFD3FF0E" Canvas.Left="276" Canvas.Top="317"/>
-            <Label Content="Invoice Total:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Canvas.Left="186" Canvas.Top="319"/>
+            <TextBox x:Name="NewInvoice_TotalPriceBox" HorizontalAlignment="Left" Height="28" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" BorderThickness="2" BorderBrush="Black" TextAlignment="Center" FontWeight="Bold" FontSize="14" Background="#FFD3FF0E" Canvas.Left="171" Canvas.Top="317"/>
+            <Label Content="Total:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Canvas.Left="115" Canvas.Top="317" FontSize="16"/>
+            <Label Content="Invoice #: TBD" Canvas.Left="5" Canvas.Top="319" FontWeight="Bold" FontSize="14" Foreground="#FF1720D1"/>
+            <Button x:Name="NewInvoice_DeleteItemButton" Content="Delete Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="92" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="304" Canvas.Top="317" Click="NewInvoice_DeleteItemButton_Click"/>
 
         </Canvas>
 
         <Canvas x:Name="EditInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Visible">
             <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="355" VerticalAlignment="Top" Width="600">
-                <DataGrid x:Name="Edit_DataGrid" GridLinesVisibility="All" BorderThickness="2" CanUserAddRows="True" Margin="40,126,50,45" AutoGenerateColumns="False">
+                <DataGrid x:Name="Edit_DataGrid" GridLinesVisibility="All" BorderThickness="2" CanUserAddRows="False" Margin="40,126,50,45" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Item Code" Width="70" Binding="{Binding ItemCode}"/>
                         <DataGridTextColumn Header="Item Name" Width="342" Binding="{Binding ItemDescription}"/>
@@ -54,9 +56,11 @@
             <Label x:Name="EditItemLabel" Content="Add Item: " HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Left="10" Canvas.Top="36"/>
             <ComboBox x:Name="Edit_AddItemComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="247" Height="28" Canvas.Left="110" Canvas.Top="37" IsEnabled="False"/>
             <Button x:Name="AddItemButtonEditWindow" Content="Add Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="118" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="362" Canvas.Top="37" Click="Edit_AddItemButton_Click"/>
-            <Label x:Name="EditInvoiceDeleteLabel" Content="Delete Item: " HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Left="10" Canvas.Top="69"/>
-            <ComboBox x:Name="Edit_DeleteItemComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="247" Height="28" Canvas.Left="110" Canvas.Top="70" IsEnabled="False"/>
-            <Button x:Name="DeleteItemEditWindowButton" Content="Delete Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="118" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="362" Canvas.Top="69" Click="DeleteItemEditWindowButton_Click"/>
+            <Button x:Name="DeleteItemEditWindowButton" Content="Delete Seleted Item(s)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="164" Height="28" FontWeight="Bold" FontSize="14" BorderThickness="2" BorderBrush="Black" Canvas.Left="193" Canvas.Top="92" Click="DeleteItemEditWindowButton_Click"/>
+            <Label x:Name="EditItemLabel_Copy" Content="Select Invoice: " HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Top="2"/>
+            <Label x:Name="EditItemLabel_Copy1" Content="Total Price:" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Canvas.Left="46" Canvas.Top="316"/>
+            <TextBox x:Name="Edit_TotalPriceBox" Height="23" Canvas.Left="129" TextWrapping="Wrap" Canvas.Top="322" Width="120" BorderBrush="Black" BorderThickness="2" FontWeight="Bold" FontSize="16" TextAlignment="Center"/>
+            <Button x:Name="Edit_SaveButton" Content="Save Invoice" Width="104" Canvas.Left="486" Canvas.Top="322" FontWeight="Bold" FontSize="16" Click="Edit_SaveButton_Click"/>
         </Canvas>
 
         <Canvas x:Name="DeleteInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Hidden">

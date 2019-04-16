@@ -190,19 +190,20 @@ namespace Group6FinalProject.Main
                 var selection = Edit_SelectInvoiceComboBox.SelectedItem;
                 var invoiceID = ((Group6FinalProject.ClsInvoice)selection).InvoiceNum.ToString();
 
-                Edit_DeleteItemComboBox.Items.Clear();
+                ClsMainLogic.CreateNewItemCollection();     //resets a new item collection to be used here
 
                 var itemsList = ClsMainLogic.PopulateItemsForInvoice(invoiceID);
 
                 foreach(ClsItem i in itemsList)
                 {
-                    Edit_DeleteItemComboBox.Items.Add(i);
+                    ClsMainLogic.InvoiceItemsList.Add(i);
                 }
 
-                Edit_DataGrid.ItemsSource = itemsList;
+                Edit_DataGrid.ItemsSource = ClsMainLogic.InvoiceItemsList;
+
+                Edit_TotalPriceBox.Text = "$" + ClsMainLogic.CalculateInvoiceTotal();
 
                 Edit_AddItemComboBox.IsEnabled = true;
-                Edit_DeleteItemComboBox.IsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -313,7 +314,7 @@ namespace Group6FinalProject.Main
                 {
                     var selection = NewInvoice_ItemComboBox.SelectedItem;
 
-                    ClsMainLogic.NewInvoice_AddNewItem(selection);
+                    ClsMainLogic.AddNewItem(selection);
                     NewInvoice_DataGrid.ItemsSource = ClsMainLogic.InvoiceItemsList;
                     NewInvoice_TotalPriceBox.Text = "$" + ClsMainLogic.CalculateInvoiceTotal();
                 }
@@ -334,8 +335,13 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                //get the item id selected in the combo box
-                //add item to the list that will populate the data grid            
+                if (!string.IsNullOrEmpty(Edit_AddItemComboBox.Text))  //if the combo box contains a selection
+                {
+                    var selection = Edit_AddItemComboBox.SelectedItem;
+
+                    ClsMainLogic.AddNewItem(selection);
+                    NewInvoice_TotalPriceBox.Text = "$" + ClsMainLogic.CalculateInvoiceTotal();
+                }
             }
             catch (Exception ex)
             {
@@ -352,8 +358,12 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                //get the item id selected in the combo box
-                //delete item from the list
+                while (Edit_DataGrid.SelectedItems.Count > 0)          //this loop allows for multiple items to be deleted at once
+                {
+                    ClsMainLogic.InvoiceItemsList.RemoveAt(Edit_DataGrid.SelectedIndex);
+                }
+
+                Edit_TotalPriceBox.Text = "$" + ClsMainLogic.CalculateInvoiceTotal();
             }
             catch (Exception ex)
             {
@@ -431,6 +441,50 @@ namespace Group6FinalProject.Main
                 ShowLandingPage();
             }
             catch (Exception ex)
+            {
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Deletes items in the new invoice datagrid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NewInvoice_DeleteItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                while(NewInvoice_DataGrid.SelectedItems.Count > 0)                          //this loop allows for multiple items to be deleted at once
+                {
+                    ClsMainLogic.InvoiceItemsList.RemoveAt(NewInvoice_DataGrid.SelectedIndex);
+                }
+
+                if (NewInvoice_TotalPriceBox.Text != "")
+                {
+                    NewInvoice_PriceBox.Text = "";
+                }
+
+                NewInvoice_TotalPriceBox.Text = "$" + ClsMainLogic.CalculateInvoiceTotal();   //recalculate the new total
+            }
+            catch(Exception ex)
+            {
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// handles the event of the save button being clicked in the edit menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Edit_SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //need to make SQL to UPDATE a previous invoice id
+            }
+            catch(Exception ex)
             {
                 ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }

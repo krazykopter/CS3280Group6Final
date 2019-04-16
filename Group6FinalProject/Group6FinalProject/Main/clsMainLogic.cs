@@ -151,7 +151,7 @@ namespace Group6FinalProject.Main
         /// /// Populates the data grid using a Collection as the user adds item to the new invoice
         /// </summary>
         /// <param name="selection">object used to find info in combo box</param>
-        public static void NewInvoice_AddNewItem(object selection)
+        public static void AddNewItem(object selection)
         {
             try
             {
