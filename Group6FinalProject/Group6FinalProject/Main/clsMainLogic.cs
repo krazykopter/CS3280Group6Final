@@ -195,7 +195,8 @@ namespace Group6FinalProject.Main
         /// <summary>
         /// saves the newly created invoice and adds the items to it
         /// </summary>
-        public static void SaveNewInvoice()
+        /// <returns>invoice number to be shown to user</returns>
+        public static string SaveNewInvoice(string date)
         {
             try
             {
@@ -203,12 +204,11 @@ namespace Group6FinalProject.Main
                 string invoiceNumSQL = ClsMainSQL.SelectNewInvoiceNumber();     //the biggest invoice number that exists + 1
 
                 //Get all values needed
-                string invoiceNum = db.ExecuteScalarSQL(invoiceNumSQL);
-                var currentDate = DateTime.Now.ToShortDateString();
+                string invoiceNum = db.ExecuteScalarSQL(invoiceNumSQL);                
                 int totalPrice = CalculateInvoiceTotal();
 
                 //get string to add the invoice database
-                string newInvoiceSQL = ClsMainSQL.SaveNewInvoice(invoiceNum, currentDate, totalPrice);
+                string newInvoiceSQL = ClsMainSQL.SaveNewInvoice(invoiceNum, date, totalPrice);
                 db.ExecuteNonQuery(newInvoiceSQL);
 
                 int lineItemNumber = 1;
@@ -219,6 +219,8 @@ namespace Group6FinalProject.Main
                     string addSQL = ClsMainSQL.AddItemToInvoice(invoiceNum, lineItemNumber++, i.ItemCode);
                     db.ExecuteNonQuery(addSQL);
                 }
+
+                return invoiceNum;
 
             }
             catch (Exception ex)
@@ -241,6 +243,32 @@ namespace Group6FinalProject.Main
                 db.ExecuteNonQuery(delLineItems);
                 db.ExecuteNonQuery(delInvoice);
             }
+            catch(Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        public static void UpdateInvoiceInformation(string invoiceNumber, int newTotalPrice)
+        {
+            try
+            {
+                string updateInvoice = ClsMainSQL.UpdateInvoiceTotalPrice(invoiceNumber, newTotalPrice);
+                string deleteLineItems = ClsMainSQL.DeleteInvoiceLineItems(invoiceNumber);     //instead of trying to update them, just delete all and reload
+
+                db.ExecuteNonQuery(updateInvoice);
+                db.ExecuteNonQuery(deleteLineItems);
+
+                int lineItemNumber = 1;
+
+                //go through each item in the list and write to the database under the same invoice number
+                foreach (ClsItem i in InvoiceItemsList)
+                {
+                    string addSQL = ClsMainSQL.AddItemToInvoice(invoiceNumber, lineItemNumber++, i.ItemCode);
+                    db.ExecuteNonQuery(addSQL);
+                }
+            }
+
             catch(Exception ex)
             {
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);

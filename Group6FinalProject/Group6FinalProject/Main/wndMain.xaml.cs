@@ -60,6 +60,8 @@ namespace Group6FinalProject.Main
         {
             try
             {
+                mainUserDisplayLabel.Content = "";
+
                 NewInvoice_ItemComboBox.Items.Clear();
 
                 var itemList = ClsMainLogic.PopulateItemComboBox();    //populate combo boxes
@@ -87,6 +89,8 @@ namespace Group6FinalProject.Main
         {
             try
             {
+                mainUserDisplayLabel.Content = "";
+
                 Edit_AddItemComboBox.Items.Clear();
                 Edit_SelectInvoiceComboBox.Items.Clear();
 
@@ -121,6 +125,8 @@ namespace Group6FinalProject.Main
         {
             try
             {
+                mainUserDisplayLabel.Content = "";
+
                 Delete_SelectInvoiceComboBox.Items.Clear(); //clear the previous list to avoid duplicates
 
                 var invoiceList = ClsMainLogic.PopulateInvoiceComboBox();
@@ -188,22 +194,28 @@ namespace Group6FinalProject.Main
             try
             {
                 var selection = Edit_SelectInvoiceComboBox.SelectedItem;
-                var invoiceID = ((Group6FinalProject.ClsInvoice)selection).InvoiceNum.ToString();
 
-                ClsMainLogic.CreateNewItemCollection();     //resets a new item collection to be used here
-
-                var itemsList = ClsMainLogic.PopulateItemsForInvoice(invoiceID);
-
-                foreach(ClsItem i in itemsList)
+                if (selection != null)
                 {
-                    ClsMainLogic.InvoiceItemsList.Add(i);
+                    var invoiceID = ((Group6FinalProject.ClsInvoice)selection).InvoiceNum.ToString();
+
+                    ClsMainLogic.CreateNewItemCollection();     //resets a new item collection to be used here
+
+                    var itemsList = ClsMainLogic.PopulateItemsForInvoice(invoiceID);
+
+                    foreach (ClsItem i in itemsList)
+                    {
+                        ClsMainLogic.InvoiceItemsList.Add(i);
+                    }
+
+                    Edit_DataGrid.ItemsSource = ClsMainLogic.InvoiceItemsList;
+
+                    Edit_TotalPriceBox.Text = "$" + ClsMainLogic.CalculateInvoiceTotal();
+
+                    Edit_AddItemComboBox.IsEnabled = true;
                 }
 
-                Edit_DataGrid.ItemsSource = ClsMainLogic.InvoiceItemsList;
-
-                Edit_TotalPriceBox.Text = "$" + ClsMainLogic.CalculateInvoiceTotal();
-
-                Edit_AddItemComboBox.IsEnabled = true;
+                
             }
             catch (Exception ex)
             {
@@ -340,7 +352,7 @@ namespace Group6FinalProject.Main
                     var selection = Edit_AddItemComboBox.SelectedItem;
 
                     ClsMainLogic.AddNewItem(selection);
-                    NewInvoice_TotalPriceBox.Text = "$" + ClsMainLogic.CalculateInvoiceTotal();
+                    Edit_TotalPriceBox.Text = "$" + ClsMainLogic.CalculateInvoiceTotal();
                 }
             }
             catch (Exception ex)
@@ -407,6 +419,23 @@ namespace Group6FinalProject.Main
         }
 
         /// <summary>
+        /// pulled out be a method so it can also be used to clear the screen when the user saves an invoice
+        /// </summary>
+        private void EditInvoiceCancelFunction()
+        {
+            try
+            {
+                ShowLandingPage();                          //return to the main screen
+                ClsMainLogic.InvoiceItemsList.Clear();   //clear the list that populates the data grid
+                Edit_TotalPriceBox.Text = "";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
         /// this method handles the clicks for the save button on the new invoice window
         /// </summary>
         /// <param name="sender"></param>
@@ -415,7 +444,17 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                ClsMainLogic.SaveNewInvoice();
+
+                var date = newInvoiceDatePicker.Text;
+
+                if(date == null)    //if date is not selected, then choose the current date
+                {
+                    date = DateTime.Now.ToShortDateString();
+                }
+
+                var invoiceNumber = ClsMainLogic.SaveNewInvoice(date);
+                
+                mainUserDisplayLabel.Content = "Invoice # " + invoiceNumber + " has been created!";
                 NewInvoiceCancelFunction();         //clear the screen after save as well
             }
             catch(Exception ex)
@@ -437,6 +476,8 @@ namespace Group6FinalProject.Main
                 var invoiceNum = ((Group6FinalProject.ClsInvoice)selection).InvoiceNum;
 
                 ClsMainLogic.DeleteInvoice(invoiceNum);                                     //send it to the business logic to complete
+
+                mainUserDisplayLabel.Content = "Invoice # " + invoiceNum + " has been deleted!";
 
                 ShowLandingPage();
             }
@@ -483,6 +524,27 @@ namespace Group6FinalProject.Main
             try
             {
                 //need to make SQL to UPDATE a previous invoice id
+                var selection = Edit_SelectInvoiceComboBox.SelectedItem;
+                var invoiceNum = ((Group6FinalProject.ClsInvoice)selection).InvoiceNum;
+                var newTotal = ClsMainLogic.CalculateInvoiceTotal();
+
+                ClsMainLogic.UpdateInvoiceInformation(invoiceNum, newTotal);
+
+                EditInvoiceCancelFunction();        //clear the previous info and return to landing page
+
+                mainUserDisplayLabel.Content = "Invoice # " + invoiceNum + " has been updated!";
+            }
+            catch(Exception ex)
+            {
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        private void Edit_CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                EditInvoiceCancelFunction();
             }
             catch(Exception ex)
             {

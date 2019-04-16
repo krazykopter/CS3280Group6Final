@@ -83,7 +83,7 @@ namespace Group6FinalProject.Main
         /// <summary>
         /// Find the biggest previous number and add 1
         /// </summary>
-        /// <returns></returns>
+        /// <returns>biggest invoice number + 1</returns>
         public static string SelectNewInvoiceNumber()
         {
             try
@@ -100,13 +100,16 @@ namespace Group6FinalProject.Main
         /// <summary>
         /// Execute Non-Query to create new invoice in db
         /// </summary>
-        /// <returns></returns>
-        public static string SaveNewInvoice(string invoiceNumber, string currentDate, int totalPrice)
+        /// <param name="invoiceNumber">invoiec number</param>
+        /// <param name="invoiceDate">crrent date</param>
+        /// <param name="totalPrice"> total price</param>
+        /// <returns>sql string for non query</returns>
+        public static string SaveNewInvoice(string invoiceNumber, string invoiceDate, int totalPrice)
         {
             try
             {
                 string sSQL = "INSERT INTO Invoices(InvoiceNum, InvoiceDate, TotalCost) VALUES" +
-                "(" + invoiceNumber + ", '" + currentDate + "', " + totalPrice + ")";
+                "(" + invoiceNumber + ", '" + invoiceDate + "', " + totalPrice + ")";
                 return sSQL;
             }
             catch(Exception ex)
@@ -118,7 +121,10 @@ namespace Group6FinalProject.Main
         /// <summary>
         /// Used for a non query to insert an item into a invoice in the db
         /// </summary>
-        /// <returns></returns>
+        /// <param name="invoiceNumber">invoice number</param>
+        /// <param name="lineItemNumber">line item number</param>
+        /// <param name="itemCode">item letter code</param>
+        /// <returns>sql string to add items</returns>
         public static string AddItemToInvoice(string invoiceNumber, int lineItemNumber, string itemCode)
         {
             try
@@ -136,8 +142,8 @@ namespace Group6FinalProject.Main
         /// <summary>
         /// Used for a non query to delete for given invoice number
         /// </summary>
-        /// <param name="invoiceNumber"></param>
-        /// <returns></returns>
+        /// <param name="invoiceNumber">invoice number</param>
+        /// <returns>sql string for delete non query</returns>
         public static string DeleteInvoiceLineItems(string invoiceNumber)
         {
             try
@@ -155,8 +161,8 @@ namespace Group6FinalProject.Main
         /// <summary>
         /// Used for a non query to delete for given invoice number
         /// </summary>
-        /// <param name="invoiceNumber"></param>
-        /// <returns></returns>
+        /// <param name="invoiceNumber">invoicenumber</param>
+        /// <returns>sql string for delete non query</returns>
         public static string DeleteInvoice(string invoiceNumber)
         {
             try
@@ -165,6 +171,25 @@ namespace Group6FinalProject.Main
                 return sSQL;
             }
             catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// this method will allow for the invoice and items to be updated when saved in the edit window
+        /// </summary>
+        /// <param name="invoiceNumber"></param>
+        /// <param name="newTotalPrice"></param>
+        /// <returns>sql string to update invoice info</returns>
+        public static string UpdateInvoiceTotalPrice(string invoiceNumber, int newTotalPrice)
+        {
+            try
+            {
+                string sSQL = "UPDATE Invoices SET TotalCost = " + newTotalPrice + " WHERE InvoiceNum = " + invoiceNumber;
+                return sSQL;
+            }
+            catch(Exception ex)
             {
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }

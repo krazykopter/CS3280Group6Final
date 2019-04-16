@@ -55,3 +55,4 @@ C:\Users\bradc\cs\CS3280\FinalProject\CS3280Group6Final\Group6FinalProject\Group
 C:\Users\bradc\cs\CS3280\FinalProject\CS3280Group6Final\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.csproj.CoreCompileInputs.cache
 C:\Users\bradc\cs\CS3280\FinalProject\CS3280Group6Final\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.exe
 C:\Users\bradc\cs\CS3280\FinalProject\CS3280Group6Final\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.pdb
+C:\Users\Carson Desktop\Documents\GitHub\CS3280Group6Final\Group6FinalProject\Group6FinalProject\obj\Debug\App.baml

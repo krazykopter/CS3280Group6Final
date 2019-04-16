@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:Group6FinalProject"
              StartupUri="Main\wndMain.xaml">
     <Application.Resources>
-            
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="DarkGray"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="BorderThickness" Value="5"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+        </Style>
     </Application.Resources>
 </Application>
