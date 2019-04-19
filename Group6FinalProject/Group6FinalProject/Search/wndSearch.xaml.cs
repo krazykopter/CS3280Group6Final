@@ -41,20 +41,6 @@ namespace Group6FinalProject.Search
         private static ClsInvoice selectedInvoice;
         #endregion
 
-        #region Properties
-        /// <summary>
-        /// Used to give main window access to the selected invoice
-        /// </summary>
-        public static ClsInvoice SelectedInvoice
-        {
-            // read only
-            get
-            {
-                return selectedInvoice;
-            }
-        }
-        #endregion
-
 
         #region Constructor
         /// <summary>
@@ -200,6 +186,8 @@ namespace Group6FinalProject.Search
                 {
                     // set the selectedInvoice attribute for mainWindow to access
                     selectedInvoice = (ClsInvoice) dgdAllInvoices.SelectedItem;
+
+                    clsWindowManager.SelectedInvoice = selectedInvoice;
 
                     resetSearchWindow();
 
