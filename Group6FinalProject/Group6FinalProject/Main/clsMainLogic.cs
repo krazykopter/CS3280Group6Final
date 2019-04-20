@@ -18,6 +18,14 @@ namespace Group6FinalProject.Main
         /// </summary>
         public static clsDataAccess db;
 
+        /// <summary>
+        /// a boolean to determine if coming from the search window
+        /// </summary>
+        public static bool comingFromSearch = false;
+
+        /// <summary>
+        /// A list to keep all invoice items together
+        /// </summary>
         public static ObservableCollection<ClsItem> InvoiceItemsList;    //this will be used to keep track of the list of items while it is being built, before it is saved
 
         public ClsMainLogic()
@@ -30,7 +38,7 @@ namespace Group6FinalProject.Main
         /// A simple method to create a collection to use while adding items to new invoice
         /// </summary>
         public static void CreateNewItemCollection()
-        {
+        {            
             if(InvoiceItemsList != null)
             {
                 InvoiceItemsList.Clear();
@@ -39,12 +47,29 @@ namespace Group6FinalProject.Main
         }
 
         /// <summary>
+        /// an easy method to simulate a button click when moving back to edit window
+        /// </summary>
+        public static void MoveToEdit()
+        {
+            try
+            {
+                WndMain.main.EditInvoiceCanvas.Visibility = Visibility.Visible;
+                WndMain.main.EditInvoiceWindowButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
         /// this function will fill any combo box that requires a list of all items from the DB
         /// </summary>
         public static List<ClsItem> PopulateItemComboBox()
         {
             try
-            {
+            {                
                 List<ClsItem> itemList = new List<ClsItem>();
                 DataSet ds = new DataSet();
                 int iRetVal = 0;

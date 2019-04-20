@@ -26,7 +26,6 @@ namespace Group6FinalProject
         /// </summary>
         private static ClsInvoice selectedInvoice;
 
-
         #region Properties
         /// <summary>
         /// Used to give main window access to the selected invoice

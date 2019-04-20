@@ -21,7 +21,7 @@
         <Button x:Name="EditInvoiceWindowButton" Content="Edit Invoice" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="10,80,0,0" Height="24" FontWeight="Bold" FontSize="14" Click="EditInvoiceButton_Click"/>
         <Button x:Name="DeleteInvoiceWindowButton" Content="Delete Invoice" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="10,120,0,0" Height="24" FontWeight="Bold" FontSize="14" Click="DeleteInvoiceButton_Click"/>
 
-        <Canvas x:Name="NewInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Visible">
+        <Canvas x:Name="NewInvoiceCanvas" HorizontalAlignment="Left" Height="355" Margin="141,39,0,0" VerticalAlignment="Top" Width="600" Visibility="Hidden">
             <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="355" VerticalAlignment="Top" Width="600">
                 <TextBox x:Name="NewInvoice_PriceBox" HorizontalAlignment="Left" Height="28" Margin="262,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122" FontWeight="Bold" FontSize="16" IsReadOnly="True" Background="#FFF3E49E" TextAlignment="Center" BorderThickness="2" BorderBrush="Black"/>
             </Border>

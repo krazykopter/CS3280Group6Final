@@ -14,13 +14,6 @@ using System.Windows.Shapes;
 using System.Reflection;
 using System.Data;
 
-
-/* CARSON TO DO
- * ------------
- *  Move all code out of the UI
- *  Add total price on invoice page
-*/
-
 namespace Group6FinalProject.Main
 {
     /// <summary>
@@ -91,8 +84,8 @@ namespace Group6FinalProject.Main
             {
                 mainUserDisplayLabel.Content = "";
 
-                Edit_AddItemComboBox.Items.Clear();
-                Edit_SelectInvoiceComboBox.Items.Clear();
+                Edit_AddItemComboBox.Items.Clear();             //clear item box
+                Edit_SelectInvoiceComboBox.Items.Clear();       //clear invoice box
 
                 var itemList = ClsMainLogic.PopulateItemComboBox();    //populate combo boxes
 
@@ -103,12 +96,19 @@ namespace Group6FinalProject.Main
 
                 var invoiceList = ClsMainLogic.PopulateInvoiceComboBox();
 
-                foreach(ClsInvoice i in invoiceList)
+                foreach (ClsInvoice i in invoiceList)
                 {
                     Edit_SelectInvoiceComboBox.Items.Add(i);
                 }
 
+                if(ClsMainLogic.comingFromSearch == true)       //if user came from search, select the same invoice they had selected
+                {
+                    Edit_SelectInvoiceComboBox.Text = clsWindowManager.SelectedInvoice.ToString();
+                    ClsMainLogic.comingFromSearch = false;      //reset the coming from search status
+                }
+
                 ShowEditInvoiceCanvas();
+
             }
             catch (Exception ex)
             {

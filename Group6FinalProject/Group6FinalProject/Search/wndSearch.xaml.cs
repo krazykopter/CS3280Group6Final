@@ -191,8 +191,13 @@ namespace Group6FinalProject.Search
 
                     resetSearchWindow();
 
+                    Main.ClsMainLogic.comingFromSearch = true;                
+
+                    Main.ClsMainLogic.MoveToEdit();
+
                     // hide the search window
                     clsWindowManager.showMainWindow();
+
                 }
                 else
                 {
