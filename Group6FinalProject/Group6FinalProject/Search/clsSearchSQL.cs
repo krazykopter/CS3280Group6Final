@@ -68,7 +68,7 @@ namespace Group6FinalProject.Search
             try
             {
                 string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID +
-                    " AND InvoiceDate = " + invoiceDate;
+                    " AND InvoiceDate LIKE \'" + invoiceDate + "%\'";
                 return sSQL;
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace Group6FinalProject.Search
             try
             {
                 string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID +
-                    " AND InvoiceDate = " + invoiceDate +
+                    " AND InvoiceDate LIKE \'" + invoiceDate + "%\'" +
                     " AND TotalCost = " + totalCost;
                 return sSQL;
             }
@@ -159,7 +159,7 @@ namespace Group6FinalProject.Search
         {
             try
             {
-                string sSQL = "SELECT * FROM Invoices WHERE InvoiceDate = " + invoiceDate +
+                string sSQL = "SELECT * FROM Invoices WHERE InvoiceDate LIKE \'" + invoiceDate + "%\'" +
                     " AND TotalCost = " + totalCost;
                 return sSQL;
             }
