@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,123 +16,46 @@ namespace Group6FinalProject.Items
     // The purpose of this form is to update the def table, which contains all the items for the business
     class ClsItemsLogic
     {
-        /*
-        GUI:
-            - created with all controls needed to complete the requirements
-        Interface:
-            - put appropriate comments in the sections of stubbed out code to explain
-              how the data will be passed around
-        
-        need a method that checks to ensure an invoice is not being edited
-
-        need a method that checks to ensure a new invoice is not being created (or functionality added to other check method)
-
-        need a datagrid (or something like it) to list all the items in a list format
-
-        need to be able to add new items
-
-        need to be able to edit existing items (cost and description)
-            but not the item code. The item code is the primary key
-
-        need to be able to delete existing items (But not if that item is on an invoice)
-            need to warn the user with a message that tells the user which invoices that item is used on
-        
-        When the user closes the update def table form, make sure to update the drop-down box as to reflect any changes made by the user
-
-        update the current invoice, because it's item name (description) might have been updated
-
-        */
         #region Attributes
-        /// <summary>
-        /// References wndItems
-        /// </summary>
-        private static WndItems wndItems; // taken from clsSearchLogic
-
         /// <summary>
         /// References the data access object
         /// used to make queries to the database
         /// </summary>
-        private static clsDataAccess db; // taken from clsSearchLogic
-
-        /// <summary>
-        /// List of items to be displayed in the wndItems data grid
-        /// </summary>
-        private static List<ClsItem> lItems; // taken from clsSearchLogic
-        
-        /// <summary>
-        /// The item code is used to search the database for a specific item
-        /// </summary>
-        private static string itemCode;
-
-        /// <summary>
-        /// The item cost is used to create or update the cost of an item in the database
-        /// </summary>
-        private static string itemCost;
-
-        /// <summary>
-        /// the item description is used to create or update the description of an item in the database
-        /// </summary>
-        private static string itemDesc;
+        private static clsDataAccess db = new clsDataAccess();
         #endregion
         #region Methods
-        // I think these two checks should be performed by clsMainLogic and that both should be false before allowing the user to open wndItems
-        // refer to Group Assignment, the second to last paragraph starting with "The last form needed is..."
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// <summary>
-        /// This method checks to see if an invoice is being edited
+        /// This method populates class attribute itemList with all of the items and returns it
         /// </summary>
-        /// <returns>if a invoice is being edited, returns true</returns>
-        bool IsInvoiceEdit()
+        /// <returns>itemList</returns>
+        public static ObservableCollection<ClsItem> populateItemGridBox()
         {
             try
             {
-                // TODO: Needs to check if WndMain.main.EditInvoiceCanvas.Visibility = Visibility.Visible
-                // if set to hidden, return false. Otherwise, return true
-                return true;
+                ObservableCollection<ClsItem> itemList = new ObservableCollection<ClsItem>();
+                DataSet ds = new DataSet();
+                int iRetVal = 0;
+
+                string sSQL = ClsItemsSQL.SelectItems();
+
+                ds = db.ExecuteSQLStatement(sSQL, ref iRetVal);
+
+                for (int i = 0; i < iRetVal; i++)
+                {
+                    ClsItem oneItem = new ClsItem
+                    {
+                        ItemCode = ds.Tables[0].Rows[i][0].ToString(),
+                        ItemDescription = ds.Tables[0].Rows[i][1].ToString(),
+                        ItemPrice = Int32.Parse(ds.Tables[0].Rows[i][2].ToString())
+                    };
+
+                    itemList.Add(oneItem);
+                }
+                return itemList;
             }
             catch (Exception ex)
             {
 
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// This method checks to see if a new invoice is being created
-        /// </summary>
-        /// <returns>if a new invoice is being created, returns true</returns>
-        bool IsNewInvoice()
-        {
-            try
-            {
-                // TODO: Needs to check if WndMain.main.NewInvoiceCanvas.Visibility = Visibility.Visible;
-                // if set to hidden, return false. Otherwise, return true
-                return true;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
-        }
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        /// <summary>
-        /// This method sets the Search Window reference, data access object reference,
-        /// and initializes the invoice list. It is called first, from the Search Window constructor.
-        /// </summary>
-        /// <param name="newWndItems"></param>
-        /// <param name="newDb"></param>
-        public static void SetDB(WndItems newWndItems, clsDataAccess newDb) // taken from clsSearchLogic
-        {
-            try
-            {
-                wndItems = newWndItems;
-                db = newDb;
-                lItems = new List<ClsItem>();
-            }
-            catch (Exception ex)
-            {
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
@@ -140,17 +65,57 @@ namespace Group6FinalProject.Items
         /// </summary>
         /// <param name="itemCode"></param>
         /// <returns>if the item is on any invoices, return true. Otherwise return false</returns>
-        bool IsOnInvoice(string code)
+        public static bool IsOnInvoice(string code)
         {
             try
             {
-                itemCode = code;
-                // TODO: Needs to pass the itemCode in to check whether or not it is on an invoice
-                // Check through every invoice, the first time it appears in an invoice, return true. Otherwise, return false
-                return false;
+                int iRetVal = 0;
+
+                string sSQL = ClsItemsSQL.SelectDistinctInvoice(code);
+
+                db.ExecuteSQLStatement(sSQL, ref iRetVal);
+
+                if(iRetVal < 1) // only return false if the return value is less than 1 (possible scalability issue if database size exceeds max int size)
+                {
+                    return false;
+                }
+                return true;
             }
             catch (Exception ex)
             {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// This method takes an item code and returns which invoices that item appears in
+        /// </summary>
+        /// <param name="itemCode"></param>
+        /// <returns>invoiceList</returns>
+        public static string WhichInvoice(string itemCode)
+        {
+            try
+            {
+                ObservableCollection<ClsItem> itemList = new ObservableCollection<ClsItem>();
+                DataSet ds = new DataSet();
+                int iRetVal = 0;
+
+                string invoiceList = "This item is contained in invoice(s): "; // beginning of the invoice list message
+
+                string sSQL = ClsItemsSQL.SelectDistinctInvoice(itemCode);  // stores the SQL statement in a local string variable
+
+                ds = db.ExecuteSQLStatement(sSQL, ref iRetVal);             // executes the SQL statement and stores each invoice number as a row in the dataset
+
+                for (int i = 0; i < iRetVal; i++)                           // cycle through each row in the dataset and add the 
+                {
+                    invoiceList += ds.Tables[0].Rows[i][0].ToString();      // add each invoice number to the string
+                    invoiceList += " ";                                     // add a space between invoice numbers
+                }
+                return invoiceList;                                         // return the completed string to the calling object/method
+            }
+            catch (Exception ex)
+            {
+
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
@@ -161,15 +126,12 @@ namespace Group6FinalProject.Items
         /// <param name="code"></param>
         /// <param name="cost"></param>
         /// <param name="desc"></param>
-        void NewItem(string code, string cost, string desc)
+        public static void NewItem(string code, string desc, int cost)
         {
             try
             {
-                // TODO: takes the itemCode, itemDesc, and cost from the form and passes them into the clsItemsSQL
-                itemCode = code;
-                itemCost = cost;
-                itemDesc = desc;
-
+                string sSQL = ClsItemsSQL.InsertItem(code, desc, cost); // store the SQL statement in a local variable
+                db.ExecuteNonQuery(sSQL);                               // execute the SQL statement
             }
             catch (Exception ex)
             {
@@ -183,14 +145,12 @@ namespace Group6FinalProject.Items
         /// <param name="itemCode"></param>
         /// <param name="itemDesc"></param>
         /// <param name="cost"></param>
-        static void EditItem(string code, string cost, string desc)
+        public static void EditItem(string code, string desc, int cost)
         {
             try
             {
-                // TODO: takes itemCode, itemDesc, and cost from the form and edits stores the new itemDesc and new cost
-                itemCost = cost; // need to verify that this can convert to a monentary cost (either int or decimal/long)
-                itemDesc = desc;
-                // TODO: call the clsItemsSQL code to update this item
+                string sSQL = ClsItemsSQL.UpdateItem(code, desc, cost); // store the SQL statement in a local variable
+                db.ExecuteNonQuery(sSQL);                               // execute the SQL statement
             }
             catch (Exception ex)
             {
@@ -202,12 +162,14 @@ namespace Group6FinalProject.Items
         /// This method deletes an item
         /// </summary>
         /// <param name="itemCode"></param>
-        void DeleteItem(string itemCode)
+        public static void DeleteItem(string itemCode)
         {
             try
             {
-                IsOnInvoice(itemCode); // TODO: implement in if statement to encapsulate the code
-                // TODO: call the clsItemsSQL code to delete this item
+                if (!IsOnInvoice(itemCode)) {                       // if the item is not on an invoice:
+                    string sSQL = ClsItemsSQL.DeleteItem(itemCode); // store the SQL statement in a local variable
+                    db.ExecuteNonQuery(sSQL);                       // execute the SQL statement
+                }                                                   // this should be a redundant check
             }
             catch (Exception ex)
             {
@@ -215,5 +177,5 @@ namespace Group6FinalProject.Items
             }
         }
         #endregion
-    }
-}
+    }// end class
+}// end namespace

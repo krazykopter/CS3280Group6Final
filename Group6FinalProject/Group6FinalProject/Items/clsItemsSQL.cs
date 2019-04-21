@@ -12,20 +12,7 @@ namespace Group6FinalProject.Items
 {
     class ClsItemsSQL
     {
-        /*
-        The purpose of this form is to update the def table, which contains all the items for the business.
-        
-        each item consists of a code, cost, and description
-
-        need to be able to add new items
-
-        need to be able to edit existing items (cost and description)
-            but not the item code. The item code is the primary key
-
-        need to be able to delete existing items (But not if that item is on an invoice)
-            need to warn the user with a message that tells the user which invoices that item is used on
-        */
-
+        #region Methods
         /// <summary>
         /// This SQL selects the ItemCode, ItemDesc, and Cost from the ItemDesc table
         /// </summary>
@@ -40,10 +27,10 @@ namespace Group6FinalProject.Items
         /// This SQL takes the itemCode as an argument and returns any invoice numbers that itemCode appears in
         /// </summary>
         /// <param name="itemCode"></param>
-        /// <returns></returns>
+        /// <returns>sSQL</returns>
         public static string SelectDistinctInvoice(string itemCode)
         {
-            string sSQL = "SELECT distinct(InvoiceNum) FROM LineItems WHERE ItemCode = " + itemCode;
+            string sSQL = "SELECT DISTINCT(InvoiceNum) FROM LineItems WHERE ItemCode = '" + itemCode + "'";
             return sSQL;
         }
 
@@ -53,10 +40,10 @@ namespace Group6FinalProject.Items
         /// <param name="itemDesc"></param>
         /// <param name="cost"></param>
         /// <param name="itemCode"></param>
-        /// <returns></returns>
+        /// <returns>sSQL</returns>
         public static string UpdateItem(string itemCode, string itemDesc, int cost)
         {
-            string sSQL = "UPDATE ItemDesc SET ItemDesc = " + itemDesc + ", Cost = " + cost + " WHERE ItemCode = " + itemCode;
+            string sSQL = "UPDATE ItemDesc SET ItemDesc = '" + itemDesc + "', Cost = " + cost + " WHERE ItemCode = '" + itemCode + "'";
             return sSQL;
         }
 
@@ -66,8 +53,8 @@ namespace Group6FinalProject.Items
         /// <param name="itemCode"></param>
         /// <param name="itemDesc"></param>
         /// <param name="cost"></param>
-        /// <returns></returns>
-        public static string InsertItemDesc(string itemCode, string itemDesc, int cost)
+        /// <returns>sSQL</returns>
+        public static string InsertItem(string itemCode, string itemDesc, int cost)
         {
             string sSQL = "INSERT INTO ItemDesc(ItemCode, ItemDesc, Cost) Values('" + itemCode + "', '" + itemDesc + "', " + cost + ")";
             return sSQL;
@@ -77,11 +64,12 @@ namespace Group6FinalProject.Items
         /// takes the item code and deletes that item from the database
         /// </summary>
         /// <param name="itemCode"></param>
-        /// <returns></returns>
-        public static string DeleteItemDesc(string itemCode)
+        /// <returns>sSQL</returns>
+        public static string DeleteItem(string itemCode)
         {
             string sSQL = "DELETE FROM ItemDesc WHERE ItemCode = '" + itemCode + "'";
             return sSQL;
         }
-    }
-}
+        #endregion
+    }// end class
+}// end namespace

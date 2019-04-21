@@ -28,15 +28,13 @@ namespace Group6FinalProject.Items
         /// <summary>
         /// wndItems constructor
         /// </summary>
-        /// <param name="mainWindow"></param>
-        public WndItems(Window mainWindow)
+        public WndItems()
         {
             try
             {
                 InitializeComponent();
 
-                this.mainWindow = mainWindow;
-                db = new clsDataAccess();
+                updateWndItems(); // populates ItemsGridBox
             }
             catch (Exception ex)
             {
@@ -44,19 +42,75 @@ namespace Group6FinalProject.Items
             }            
         }
         #endregion
-        #region Attributes
+        #region Methods
         /// <summary>
-        /// reference to wndMain
+        /// This method updates the textboxes with the current selection
         /// </summary>
-        private Window mainWindow;
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (ItemsDataGrid.SelectedItem != null)
+                {
+                    var selection = ItemsDataGrid.SelectedItem;
+                    var itemCode = ((ClsItem)selection).ItemCode;
+                    var itemDesc = ((ClsItem)selection).ItemDescription;
+                    var itemCost = ((ClsItem)selection).ItemPrice;
+
+                    itemCodeTextBox.Text = itemCode;
+                    itemDescTextBox.Text = itemDesc;
+                    itemCostTextBox.Text = itemCost.ToString();
+
+                    itemCodeTextBox.IsReadOnly = true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
 
         /// <summary>
-        /// References the data access object
-        /// used to make queries to the database
+        /// This method clears the textboxes
         /// </summary>
-        public static clsDataAccess db;
-        #endregion
-        #region Methods
+        private void clearItemSelection()
+        {
+            try
+            {
+                itemCodeTextBox.Text = "";
+                itemDescTextBox.Text = "";
+                itemCostTextBox.Text = "";
+
+                itemCodeTextBox.IsReadOnly = false;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// This method clears the textboxes so a new item can be entered
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void clearSelection_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                clearItemSelection();
+            }
+            catch (Exception ex)
+            {
+
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
         /// <summary>
         /// This method allows the user to create a new item and store it in the database after click
         /// </summary>
@@ -66,9 +120,17 @@ namespace Group6FinalProject.Items
         {
             try
             {
-                // TODO: Needs to allow the user to input an itemCode, cost, and ItemDesc and store it in the database
-                // should check for valid itemCode options
-                // should check for valid data types
+                if (itemCodeTextBox.Text != "" && itemDescTextBox.Text != "" && itemCostTextBox.Text != "")
+                {
+                    string itemCode = itemCodeTextBox.Text.ToString();
+                    string itemDesc = itemDescTextBox.Text.ToString();
+                    int itemCost;
+                    Int32.TryParse(itemCostTextBox.Text.ToString(), out itemCost);
+
+                    ClsItemsLogic.NewItem(itemCode, itemDesc, itemCost);
+
+                    updateWndItems();
+                }
             }
             catch (Exception ex)
             {
@@ -85,8 +147,17 @@ namespace Group6FinalProject.Items
         {
             try
             {
-                // TODO: Should take the currently selected item from the datagrid and update user changes to the database
-                
+                if (itemCodeTextBox.Text != "" && itemDescTextBox.Text != "" && itemCostTextBox.Text != "")
+                {
+                    string itemCode = itemCodeTextBox.Text.ToString();
+                    string itemDesc = itemDescTextBox.Text.ToString();
+                    int itemCost;
+                    Int32.TryParse(itemCostTextBox.Text.ToString(), out itemCost);
+
+                    ClsItemsLogic.EditItem(itemCode, itemDesc, itemCost);
+
+                    updateWndItems();
+                }
             }
             catch (Exception ex)
             {
@@ -103,10 +174,22 @@ namespace Group6FinalProject.Items
         {
             try
             {
-                // TODO: should take the currently selected item from the datagrid
-                // check to see if it exists within an invoice
-                // Warn the user and not allow deletion if it is
-                // delete the item from the database if it isn't in any invoices
+                string itemCode = itemCodeTextBox.Text.ToString();
+                if (itemCodeTextBox.Text != "")
+                {
+                    if (!ClsItemsLogic.IsOnInvoice(itemCode))
+                    {
+                        ClsItemsLogic.DeleteItem(itemCode);
+                        
+
+                        updateWndItems();
+                    }
+                    else
+                    {
+                        string warningMessage = ClsItemsLogic.WhichInvoice(itemCode);
+                        MessageBox.Show(warningMessage, "Could Not Delete", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -121,8 +204,14 @@ namespace Group6FinalProject.Items
         {
             try
             {
-                // TODO: Needs to update the gridbox with the current list of all items
-                // the gridbox will need to be updated after every change (add, edit, delete)
+                var itemList = ClsItemsLogic.populateItemGridBox();
+                clearItemSelection();
+                ItemsDataGrid.Items.Clear();
+
+                foreach (ClsItem i in itemList)
+                {
+                    ItemsDataGrid.Items.Add(i);
+                }
             }
             catch (Exception ex)
             {
@@ -136,29 +225,92 @@ namespace Group6FinalProject.Items
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void wndItems_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             try
             {
-                // only allowed to run if application isn't already closing down 
-                // (prevent exception of accessing previously closed windows)
-                //    taken from wndSearch.xaml.cs
-                if (mainWindow.IsVisible || this.IsVisible)
+                if (this.IsVisible)
                 {
-                    mainWindow.Visibility = Visibility.Visible; // make mainWindow visible
-                    this.Visibility = Visibility.Hidden;        // make this window hidden
-                    //this.Hide(); could work as well
+                    // reset the text of the textboxes
+                    itemCodeTextBox.Text = "";
+                    itemDescTextBox.Text = "";
+                    itemCostTextBox.Text = "";
 
-                    // TODO: call 
-
-                    e.Cancel = true;                            // don't let the user destroy this object
+                    e.Cancel = true;
+                    clsWindowManager.showMainWindow();
                 }
             }
             catch (Exception ex)
             {
                 ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
-            }            
+            }
+        }
+
+        /// <summary>
+        /// This method does not allow non integer values in the textbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemCostTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                int itemCost;
+                if (!Int32.TryParse(itemCostTextBox.Text, out itemCost))
+                {
+                    e.Handled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// This method does not allow integer values in the textbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemDescTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            try
+            {
+                int wrongDesc;
+                if (Int32.TryParse(itemDescTextBox.Text, out wrongDesc))
+                {
+                    e.Handled = true;
+                }
+            }
+            catch (Exception)
+            {
+
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// This method only allows letters in the textbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemCodeTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            try
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(e.Text, "^[a-zA-Z]"))
+                {
+                    e.Handled = true;
+                }
+            }
+            catch (Exception)
+            {
+
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
         #endregion
-    }
-}
+
+        
+    }// end partial class
+}// end namespace
