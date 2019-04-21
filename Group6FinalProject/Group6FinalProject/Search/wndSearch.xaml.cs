@@ -39,6 +39,10 @@ namespace Group6FinalProject.Search
         /// reference to the invoice selected by the user
         /// </summary>
         private static ClsInvoice selectedInvoice;
+        /// <summary>
+        /// a boolean to determine if the search menu was called
+        /// </summary>
+        public static bool searchMenuCalled = false;
         #endregion
 
         #region Constructor
@@ -187,12 +191,12 @@ namespace Group6FinalProject.Search
 
                     resetSearchWindow();
 
-                    Main.ClsMainLogic.comingFromSearch = true;                
+                    searchMenuCalled = true;                
 
                     // hide the search window
                     clsWindowManager.showMainWindow();
 
-                    Main.WndMain.SimulateEditButton();
+                    //Main.WndMain.SimulateEditButton(); // references window main, should not know about window main
 
                 }
                 else

@@ -23,6 +23,7 @@ namespace Group6FinalProject.Items
         /// </summary>
         private static clsDataAccess db = new clsDataAccess();
         #endregion
+
         #region Methods
         /// <summary>
         /// This method populates class attribute itemList with all of the items and returns it

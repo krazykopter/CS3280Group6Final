@@ -57,3 +57,43 @@ C:\Users\bradc\cs\CS3280\FinalProject\CS3280Group6Final\Group6FinalProject\Group
 C:\Users\bradc\cs\CS3280\FinalProject\CS3280Group6Final\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.pdb
 C:\Users\Carson Desktop\Documents\GitHub\CS3280Group6Final\Group6FinalProject\Group6FinalProject\obj\Debug\App.baml
 C:\Users\bradc\cs\CS3280\FinalProject\CS3280Group6Final\Group6FinalProject\Group6FinalProject\obj\Debug\App.baml
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\bin\Debug\Group6FinalProject.exe.config
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\bin\Debug\Group6FinalProject.exe
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\bin\Debug\Group6FinalProject.pdb
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.csprojAssemblyReference.cache
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Items\wndItems.g.cs
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Main\wndMain.g.cs
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Search\wndSearch.g.cs
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\App.g.cs
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject_MarkupCompile.cache
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject_MarkupCompile.lref
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\App.baml
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Items\wndItems.baml
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Main\wndMain.baml
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Search\wndSearch.baml
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.g.resources
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.Properties.Resources.resources
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.csproj.GenerateResource.cache
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.csproj.CoreCompileInputs.cache
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.exe
+F:\Leopold's Folders\Downloads\CS3280Group6Final-master\CS3280Group6Final-master\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.pdb
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\bin\Debug\Group6FinalProject.exe.config
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\bin\Debug\Group6FinalProject.exe
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\bin\Debug\Group6FinalProject.pdb
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.csprojAssemblyReference.cache
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Items\wndItems.g.cs
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Main\wndMain.g.cs
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Search\wndSearch.g.cs
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\App.g.cs
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject_MarkupCompile.cache
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject_MarkupCompile.lref
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\App.baml
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Items\wndItems.baml
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Main\wndMain.baml
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Search\wndSearch.baml
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.g.resources
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.Properties.Resources.resources
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.csproj.GenerateResource.cache
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.csproj.CoreCompileInputs.cache
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.exe
+F:\Classes\CS 3280\Visual Studio Projects\Group6FinalProject\Group6FinalProject\obj\Debug\Group6FinalProject.pdb

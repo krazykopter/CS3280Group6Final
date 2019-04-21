@@ -13,24 +13,29 @@ namespace Group6FinalProject
     /// </summary>
     static class clsWindowManager
     {
+        #region Properties
         /// <summary>
         /// References the main window to be displayed
         /// </summary>
         public static Window MainWindow { get; set; }
+
         /// <summary>
         /// References the search window to be hidden
         /// </summary>
         public static Window SearchWindow { get; set; }
+
         /// <summary>
         /// References the search window to be hidden
         /// </summary>
         public static Window ItemWindow { get; set; }
+
         /// <summary>
         /// reference to the invoice selected by the user
         /// </summary>
         private static ClsInvoice selectedInvoice;
+        #endregion
 
-        #region Properties
+        #region Methods
         /// <summary>
         /// Used to give main window access to the selected invoice
         /// </summary>
@@ -45,7 +50,6 @@ namespace Group6FinalProject
                 selectedInvoice = value;
             }
         }
-        #endregion
 
         /// <summary>
         /// Used to hide SearchWindow and display MainWindow
@@ -62,10 +66,10 @@ namespace Group6FinalProject
                     ItemWindow.Visibility = Visibility.Hidden;
                     MainWindow.Visibility = Visibility.Visible;
 
-                    // calls main to check for a searched for invoice to display
-                    //if (selectedInvoice != null){
-                        // MainWindow.displaySearchedInvoice(selectedInvoice); 
-                    //}
+                    if(Search.WndSearch.searchMenuCalled == true)
+                    {
+                        Main.WndMain.SimulateEditButton();
+                    }
                 }
             }
             catch (Exception ex)
@@ -75,5 +79,6 @@ namespace Group6FinalProject
                                     MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
+        #endregion
     }
 }

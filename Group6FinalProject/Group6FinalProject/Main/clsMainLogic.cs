@@ -13,22 +13,19 @@ namespace Group6FinalProject.Main
 {
     class ClsMainLogic
     {
-        #region Constructor
+        #region Attributes
         /// <summary>
         /// new database instance
         /// </summary>
         public static clsDataAccess db;
 
         /// <summary>
-        /// a boolean to determine if coming from the search window
-        /// </summary>
-        public static bool comingFromSearch = false;
-
-        /// <summary>
         /// A list to keep all invoice items together
         /// </summary>
         public static ObservableCollection<ClsItem> InvoiceItemsList;    //this will be used to keep track of the list of items while it is being built, before it is saved
+        #endregion
 
+        #region Constructor
         /// <summary>
         /// Constructor thats set up database with ClsDataAccess Class
         /// </summary>
@@ -51,42 +48,6 @@ namespace Group6FinalProject.Main
                     InvoiceItemsList.Clear();
                 }
                 InvoiceItemsList = new ObservableCollection<ClsItem>();
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// this function will fill any combo box that requires a list of all items from the DB
-        /// </summary>
-        public static List<ClsItem> PopulateItemComboBox()
-        {
-            try
-            {                
-                List<ClsItem> itemList = new List<ClsItem>();
-                DataSet ds = new DataSet();
-                int iRetVal = 0;
-
-                string sSQL = ClsMainSQL.SelectAllItems();
-
-                ds = db.ExecuteSQLStatement(sSQL, ref iRetVal);
-
-                for (int i = 0; i < iRetVal; i++)
-                {
-                    ClsItem ci = new ClsItem
-                    {
-                        ItemCode = ds.Tables[0].Rows[i][0].ToString(),
-                        ItemDescription = ds.Tables[0].Rows[i][1].ToString(),
-                        //ItemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
-                        ItemPrice = Int32.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
-                    };
-
-                    itemList.Add(ci);
-                }
-
-                return itemList;
             }
             catch(Exception ex)
             {
@@ -124,17 +85,52 @@ namespace Group6FinalProject.Main
 
                 return invoiceList;
             }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// this function will fill any combo box that requires a list of all items from the DB
+        /// </summary>
+        public static List<ClsItem> PopulateItems()
+        {
+            try
+            {                
+                List<ClsItem> itemList = new List<ClsItem>();
+                DataSet ds = new DataSet();
+                int iRetVal = 0;
+
+                string sSQL = ClsMainSQL.SelectAllItems();
+
+                ds = db.ExecuteSQLStatement(sSQL, ref iRetVal);
+
+                for (int i = 0; i < iRetVal; i++)
+                {
+                    ClsItem ci = new ClsItem
+                    {
+                        ItemCode = ds.Tables[0].Rows[i][0].ToString(),
+                        ItemDescription = ds.Tables[0].Rows[i][1].ToString(),
+                        ItemPrice = Int32.Parse(ds.Tables[0].Rows[i][2].ToString())
+                    };
+
+                    itemList.Add(ci);
+                }
+
+                return itemList;
+            }
             catch(Exception ex)
             {
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }            
+            }
         }
 
         /// <summary>
         /// Populate items on the edit invoice page
         /// </summary>
         /// <param name="invoiceID">Deteremines which invoice to pull items from</param>
-        public static List<ClsItem> PopulateItemsForInvoice(string invoiceID)
+        public static List<ClsItem> PopulateItems(string invoiceID)
         {
             try
             {

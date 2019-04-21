@@ -41,7 +41,8 @@ namespace Group6FinalProject.Items
             }            
         }
         #endregion
-        #region Methods
+
+        #region Event Handlers
         /// <summary>
         /// This method updates the textboxes with the current selection
         /// </summary>
@@ -69,26 +70,6 @@ namespace Group6FinalProject.Items
             {
 
                 ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// This method clears the textboxes
-        /// </summary>
-        private void clearItemSelection()
-        {
-            try
-            {
-                itemCodeTextBox.Text = "";
-                itemDescTextBox.Text = "";
-                itemCostTextBox.Text = "";
-
-                itemCodeTextBox.IsReadOnly = false;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
@@ -178,64 +159,15 @@ namespace Group6FinalProject.Items
                     if (!ClsItemsLogic.IsOnInvoice(itemCode))
                     {
                         ClsItemsLogic.DeleteItem(itemCode);
-                        
+
 
                         updateWndItems();
                     }
                     else
                     {
-                        string warningMessage = ClsItemsLogic.WhichInvoice(itemCode);
-                        MessageBox.Show(warningMessage, "Could Not Delete", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        string warningMessage = ClsItemsLogic.WhichInvoice(itemCode);                        // finds which invoices the item is in
+                        MessageBox.Show(warningMessage, "Could Not Delete", MessageBoxButton.OK, MessageBoxImage.Warning); //  and displays to user
                     }
-                }
-            }
-            catch (Exception ex)
-            {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// This method is used to refresh the list in the gridbox
-        /// </summary>
-        private void updateWndItems()
-        {
-            try
-            {
-                var itemList = ClsItemsLogic.populateItemGridBox();
-                clearItemSelection();
-                ItemsDataGrid.Items.Clear();
-
-                foreach (ClsItem i in itemList)
-                {
-                    ItemsDataGrid.Items.Add(i);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// This method keeps the user from destroying the wndItems object while reseting that window
-        /// and returning the user to wndMain
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void wndItems_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            try
-            {
-                if (this.IsVisible)
-                {
-                    // reset the text of the textboxes
-                    itemCodeTextBox.Text = "";
-                    itemDescTextBox.Text = "";
-                    itemCostTextBox.Text = "";
-
-                    e.Cancel = true;                    
-                    clsWindowManager.showMainWindow();
                 }
             }
             catch (Exception ex)
@@ -304,6 +236,77 @@ namespace Group6FinalProject.Items
             {
 
                 ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// This method keeps the user from destroying the wndItems object while reseting that window
+        /// and returning the user to wndMain
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void wndItems_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                if (this.IsVisible)
+                {
+                    // reset the text of the textboxes
+                    itemCodeTextBox.Text = "";
+                    itemDescTextBox.Text = "";
+                    itemCostTextBox.Text = "";
+
+                    e.Cancel = true;
+                    clsWindowManager.showMainWindow();
+                }
+            }
+            catch (Exception ex)
+            {
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// This method clears the textboxes
+        /// </summary>
+        private void clearItemSelection()
+        {
+            try
+            {
+                itemCodeTextBox.Text = "";
+                itemDescTextBox.Text = "";
+                itemCostTextBox.Text = "";
+
+                itemCodeTextBox.IsReadOnly = false;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+        
+        /// <summary>
+        /// This method is used to refresh the list in the gridbox
+        /// </summary>
+        private void updateWndItems()
+        {
+            try
+            {
+                var itemList = ClsItemsLogic.populateItemGridBox();
+                clearItemSelection();
+                ItemsDataGrid.Items.Clear();
+
+                foreach (ClsItem i in itemList)
+                {
+                    ItemsDataGrid.Items.Add(i);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
         #endregion

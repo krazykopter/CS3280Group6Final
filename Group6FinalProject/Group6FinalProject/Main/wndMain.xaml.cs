@@ -19,15 +19,19 @@ namespace Group6FinalProject.Main
     /// <summary>
     /// Interaction logic for wndMain.xaml
     /// </summary>
-    /// </summary>
     public partial class WndMain : Window
     {
-        #region Constructor
+        #region Attributes
         public static WndMain main;
         Window searchWindow;
         Window itemWindow;
         ClsMainLogic clsMainLogic;
+        #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructor for wndMain.xaml.cs
+        /// </summary>
         public WndMain()
         {
             try
@@ -37,7 +41,6 @@ namespace Group6FinalProject.Main
                 Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
                 clsMainLogic = new ClsMainLogic();
-
                 clsWindowManager.MainWindow = main;
 
                 searchWindow = new Search.WndSearch();
@@ -67,7 +70,7 @@ namespace Group6FinalProject.Main
 
                 NewInvoice_ItemComboBox.Items.Clear();
 
-                var itemList = ClsMainLogic.PopulateItemComboBox();    //populate combo boxes
+                var itemList = ClsMainLogic.PopulateItems();    //populate combo boxes
 
                 foreach(ClsItem i in itemList)
                 {
@@ -99,7 +102,7 @@ namespace Group6FinalProject.Main
 
                 EditInvoiceCancelFunction();                    //clears old values
 
-                var itemList = ClsMainLogic.PopulateItemComboBox();    //populate combo boxes
+                var itemList = ClsMainLogic.PopulateItems();    //populate combo boxes
 
                 foreach (ClsItem i in itemList)
                 {
@@ -113,10 +116,10 @@ namespace Group6FinalProject.Main
                     Edit_SelectInvoiceComboBox.Items.Add(i);
                 }
 
-                if(ClsMainLogic.comingFromSearch == true)       //if user came from search, select the same invoice they had selected
+                if(Search.WndSearch.searchMenuCalled == true)       //if user came from search, select the same invoice they had selected
                 {
                     Edit_SelectInvoiceComboBox.Text = clsWindowManager.SelectedInvoice.ToString();
-                    ClsMainLogic.comingFromSearch = false;      //reset the coming from search status
+                    Search.WndSearch.searchMenuCalled = false;      //reset the coming from search status
                 }
 
                 ShowEditInvoiceCanvas();
@@ -157,6 +160,30 @@ namespace Group6FinalProject.Main
         }
 
         /// <summary>
+        /// Gets the invoice number from the combo box and deletes it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteInvoice_DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var selection = Delete_SelectInvoiceComboBox.SelectedItem;                  //get the selected invoice number
+                var invoiceNum = ((ClsInvoice)selection).InvoiceNum;
+
+                ClsMainLogic.DeleteInvoice(invoiceNum);                                     //send it to the business logic to complete
+
+                mainUserDisplayLabel.Content = "Invoice # " + invoiceNum + " has been deleted!";
+
+                ShowLandingPage();
+            }
+            catch (Exception ex)
+            {
+                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Method to handle the click of the Update Table Menu Item
         /// </summary>
         /// <param name="sender"></param>
@@ -165,9 +192,31 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                itemWindow.Visibility = Visibility.Visible;
-                main.Visibility = Visibility.Hidden;
-                ShowLandingPage();
+                if (main.NewInvoiceCanvas.Visibility == Visibility.Hidden &&
+                    main.EditInvoiceCanvas.Visibility == Visibility.Hidden) // The user can't be creating an invoice or editing an invoice
+                {
+                    itemWindow.Visibility = Visibility.Visible;
+                    main.Visibility = Visibility.Hidden;
+                    ShowLandingPage();
+                }
+                else // Make sure the user understands that the current changes to an invoice will not be saved
+                {
+                    string warningMessage = "WARNING: Any progress on current invoice will be lost. Continue?";
+                    MessageBoxResult result = MessageBox.Show(warningMessage, "Changes Not Saved", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                    switch (result)
+                    {
+                        case MessageBoxResult.Yes:
+                            itemWindow.Visibility = Visibility.Visible;
+                            main.Visibility = Visibility.Hidden;
+                            ShowLandingPage();
+                            break;
+                        case MessageBoxResult.No:
+                            e.Handled = true;
+                            break;
+                    }
+                }
+                
             }
             catch (Exception ex)
             {
@@ -207,11 +256,11 @@ namespace Group6FinalProject.Main
 
                 if (selection != null)
                 {
-                    var invoiceID = ((Group6FinalProject.ClsInvoice)selection).InvoiceNum.ToString();
+                    var invoiceID = ((ClsInvoice)selection).InvoiceNum.ToString();
 
                     ClsMainLogic.CreateNewItemCollection();     //resets a new item collection to be used here
 
-                    var itemsList = ClsMainLogic.PopulateItemsForInvoice(invoiceID);
+                    var itemsList = ClsMainLogic.PopulateItems(invoiceID);
 
                     foreach (ClsItem i in itemsList)
                     {
@@ -245,7 +294,7 @@ namespace Group6FinalProject.Main
                 var selection = NewInvoice_ItemComboBox.SelectedItem;
                 if (selection != null)
                 {
-                    var price = ((Group6FinalProject.ClsItem)selection).ItemPrice;
+                    var price = ((ClsItem)selection).ItemPrice;
                     WndMain.main.NewInvoice_PriceBox.Text = "$" + Decimal.Round(price, 2);
                 }
             }
@@ -354,7 +403,7 @@ namespace Group6FinalProject.Main
 
                 var date = newInvoiceDatePicker.Text;
 
-                if(date == null)    //if date is not selected, then choose the current date
+                if(date == "")    //if date is not selected, then choose the current date
                 {
                     date = DateTime.Now.ToShortDateString();
                 }
@@ -365,30 +414,6 @@ namespace Group6FinalProject.Main
                 NewInvoiceCancelFunction();         //clear the screen after save as well
             }
             catch(Exception ex)
-            {
-                ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Gets the invoice number from the combo box and deletes it
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DeleteInvoice_DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {       
-                var selection = Delete_SelectInvoiceComboBox.SelectedItem;                  //get the selected invoice number
-                var invoiceNum = ((Group6FinalProject.ClsInvoice)selection).InvoiceNum;
-
-                ClsMainLogic.DeleteInvoice(invoiceNum);                                     //send it to the business logic to complete
-
-                mainUserDisplayLabel.Content = "Invoice # " + invoiceNum + " has been deleted!";
-
-                ShowLandingPage();
-            }
-            catch (Exception ex)
             {
                 ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
@@ -431,7 +456,7 @@ namespace Group6FinalProject.Main
             try
             {
                 var selection = Edit_SelectInvoiceComboBox.SelectedItem;
-                var invoiceNum = ((Group6FinalProject.ClsInvoice)selection).InvoiceNum;
+                var invoiceNum = ((ClsInvoice)selection).InvoiceNum;
                 var newTotal = ClsMainLogic.CalculateInvoiceTotal();
 
                 ClsMainLogic.UpdateInvoiceInformation(invoiceNum, newTotal);
@@ -495,7 +520,7 @@ namespace Group6FinalProject.Main
         {
             try
             {
-                main.EditInvoiceWindowButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                main.EditInvoiceWindowButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); // reference self to simulate the button click event
             }
             catch (Exception ex)
             {
@@ -520,7 +545,6 @@ namespace Group6FinalProject.Main
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
-
 
         /// <summary>
         /// Hides all other Main Window Canvas' and shows New Invoice
