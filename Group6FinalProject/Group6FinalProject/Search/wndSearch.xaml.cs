@@ -41,13 +41,11 @@ namespace Group6FinalProject.Search
         private static ClsInvoice selectedInvoice;
         #endregion
 
-
         #region Constructor
         /// <summary>
         /// Search Window Constructor
         /// Passes reference of the Search Window and data access object to clsSearchLogic
         /// </summary>
-        /// <param name="mainWindow"></param>
         public WndSearch()
         {
             try
@@ -68,7 +66,6 @@ namespace Group6FinalProject.Search
             }
         }
         #endregion
-
 
         #region Methods
         /// <summary>
@@ -94,7 +91,6 @@ namespace Group6FinalProject.Search
                             MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
-
 
         /// <summary>
         /// Called when user selects a specific invoice date from the Search Window drop down list
@@ -193,10 +189,10 @@ namespace Group6FinalProject.Search
 
                     Main.ClsMainLogic.comingFromSearch = true;                
 
-                    Main.ClsMainLogic.MoveToEdit();
-
                     // hide the search window
                     clsWindowManager.showMainWindow();
+
+                    Main.WndMain.SimulateEditButton();
 
                 }
                 else

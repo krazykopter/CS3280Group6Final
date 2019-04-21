@@ -15,15 +15,8 @@ namespace Group6FinalProject.Main
         /// <returns>All data for the given invoice</returns>
         public static  string SelectAllItems()
         {
-            try
-            {
-                string sSQL = "SELECT * FROM ItemDesc";
-                return sSQL;
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT * FROM ItemDesc";
+            return sSQL;
         }
 
         /// <summary>
@@ -33,16 +26,9 @@ namespace Group6FinalProject.Main
         /// <returns>The cost for given item</returns>
         public static string SelectItemPrice(string itemCode)
         {
-            try
-            {
-                string sSQL = "SELECT Cost FROM ItemDesc WHERE ItemCode = " + itemCode;
-                return sSQL;
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
-        }
+            string sSQL = "SELECT Cost FROM ItemDesc WHERE ItemCode = " + itemCode;
+            return sSQL;
+    }
 
         /// <summary>
         /// This SQL gets all of the invoices to populate the "Select Invoice" combo box in the Edit Invoice tab of the Main window
@@ -50,15 +36,8 @@ namespace Group6FinalProject.Main
         /// <returns>A list of all invoices</returns>
         public static string SelectAllInvoices()
         {
-            try
-            {
-                string sSQL = "SELECT * FROM Invoices";
-                return sSQL;
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT * FROM Invoices";
+            return sSQL;
         }
 
         /// <summary>
@@ -68,16 +47,8 @@ namespace Group6FinalProject.Main
         /// <returns>All data for the given invoice</returns>
         public static string SelectInvoiceItems(string invoiceID)
         {
-            try
-            {
-                //SELECT* FROM(Invoices LEFT JOIN LineItems ON Invoices.InvoiceNum = LineItems.InvoiceNum) LEFT JOIN ItemDesc ON LineItems.ItemCode = ItemDesc.ItemCode WHERE Invoices.InvoiceNum = 5001
-                string sSQL = "SELECT LineItems.ItemCode, ItemDesc, Cost FROM (Invoices LEFT JOIN LineItems ON Invoices.InvoiceNum = LineItems.InvoiceNum) LEFT JOIN ItemDesc ON LineItems.ItemCode = ItemDesc.ItemCode WHERE Invoices.InvoiceNum = " + invoiceID;
-                return sSQL;
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT LineItems.ItemCode, ItemDesc, Cost FROM (Invoices LEFT JOIN LineItems ON Invoices.InvoiceNum = LineItems.InvoiceNum) LEFT JOIN ItemDesc ON LineItems.ItemCode = ItemDesc.ItemCode WHERE Invoices.InvoiceNum = " + invoiceID;
+            return sSQL;
         }
 
         /// <summary>
@@ -86,15 +57,8 @@ namespace Group6FinalProject.Main
         /// <returns>biggest invoice number + 1</returns>
         public static string SelectNewInvoiceNumber()
         {
-            try
-            {
-                string sSQL = "SELECT MAX(InvoiceNum)+1 FROM Invoices";
-                return sSQL;
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT MAX(InvoiceNum)+1 FROM Invoices";
+            return sSQL;
         }
 
         /// <summary>
@@ -106,16 +70,9 @@ namespace Group6FinalProject.Main
         /// <returns>sql string for non query</returns>
         public static string SaveNewInvoice(string invoiceNumber, string invoiceDate, int totalPrice)
         {
-            try
-            {
-                string sSQL = "INSERT INTO Invoices(InvoiceNum, InvoiceDate, TotalCost) VALUES" +
-                "(" + invoiceNumber + ", '" + invoiceDate + "', " + totalPrice + ")";
-                return sSQL;
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "INSERT INTO Invoices(InvoiceNum, InvoiceDate, TotalCost) VALUES" +
+            "(" + invoiceNumber + ", '" + invoiceDate + "', " + totalPrice + ")";
+            return sSQL;
         }
 
         /// <summary>
@@ -127,16 +84,9 @@ namespace Group6FinalProject.Main
         /// <returns>sql string to add items</returns>
         public static string AddItemToInvoice(string invoiceNumber, int lineItemNumber, string itemCode)
         {
-            try
-            {
-                string sSQL = "INSERT INTO LineItems(InvoiceNum, LineItemNum, ItemCode) VALUES" +
-              "(" + invoiceNumber + ", " + lineItemNumber + ", '" + itemCode + "')";
-                return sSQL;
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "INSERT INTO LineItems(InvoiceNum, LineItemNum, ItemCode) VALUES" +
+            "(" + invoiceNumber + ", " + lineItemNumber + ", '" + itemCode + "')";
+            return sSQL;
         }
 
         /// <summary>
@@ -146,17 +96,9 @@ namespace Group6FinalProject.Main
         /// <returns>sql string for delete non query</returns>
         public static string DeleteInvoiceLineItems(string invoiceNumber)
         {
-            try
-            {
-                string sSQL = "DELETE FROM LineItems WHERE InvoiceNum = " + invoiceNumber;
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "DELETE FROM LineItems WHERE InvoiceNum = " + invoiceNumber;
+            return sSQL;
         }
-
 
         /// <summary>
         /// Used for a non query to delete for given invoice number
@@ -165,15 +107,8 @@ namespace Group6FinalProject.Main
         /// <returns>sql string for delete non query</returns>
         public static string DeleteInvoice(string invoiceNumber)
         {
-            try
-            {
-                string sSQL = "DELETE FROM Invoices WHERE InvoiceNum = " + invoiceNumber;
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "DELETE FROM Invoices WHERE InvoiceNum = " + invoiceNumber;
+            return sSQL;
         }
 
         /// <summary>
@@ -184,15 +119,8 @@ namespace Group6FinalProject.Main
         /// <returns>sql string to update invoice info</returns>
         public static string UpdateInvoiceTotalPrice(string invoiceNumber, int newTotalPrice)
         {
-            try
-            {
-                string sSQL = "UPDATE Invoices SET TotalCost = " + newTotalPrice + " WHERE InvoiceNum = " + invoiceNumber;
-                return sSQL;
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "UPDATE Invoices SET TotalCost = " + newTotalPrice + " WHERE InvoiceNum = " + invoiceNumber;
+            return sSQL;
         }
 
     }

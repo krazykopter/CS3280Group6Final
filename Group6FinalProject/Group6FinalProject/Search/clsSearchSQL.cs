@@ -22,19 +22,9 @@ namespace Group6FinalProject.Search
         /// <returns>SQL string to get: All data for all invoices.</returns>
         public static string SelectAllInvoices()
         {
-            try
-            {
-                string sSQL = "SELECT * FROM Invoices";
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                //Low level method. Just throw the exception using a readable stack trace.
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT * FROM Invoices";
+            return sSQL;
         }
-
 
         /// <summary>
         /// This SQL gets all data on an invoice for a given InvoiceID.
@@ -43,19 +33,9 @@ namespace Group6FinalProject.Search
         /// <returns>SQL string to get: All data for the selected invoice.</returns>
         public static string SelectInvoiceById(string sInvoiceID)
         {
-            try
-            {
-                string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID;
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                //Low level method. Just throw the exception using a readable stack trace.
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID;
+            return sSQL;
         }
-
 
         /// <summary>
         /// This SQL gets all data on any invoices for a given Invoice Number and Invoice Date.
@@ -65,20 +45,10 @@ namespace Group6FinalProject.Search
         /// <returns>SQL string to get: All data for the selected invoices.</returns>
         public static string SelectInvoiceByIdDate(string sInvoiceID, string invoiceDate)
         {
-            try
-            {
-                string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID +
-                    " AND InvoiceDate LIKE \'" + invoiceDate + "%\'";
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                //Low level method. Just throw the exception using a readable stack trace.
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID +
+                " AND InvoiceDate LIKE \'" + invoiceDate + "%\'";
+            return sSQL;
         }
-
 
         /// <summary>
         /// This SQL gets all data on any invoices for a given Invoice Number, Invoice Date, and invoice Total Cost.
@@ -89,21 +59,11 @@ namespace Group6FinalProject.Search
         /// <returns>SQL string to get: All data for the selected invoices.</returns>
         public static string SelectInvoiceByIdDateCost(string sInvoiceID, string invoiceDate, string totalCost)
         {
-            try
-            {
-                string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID +
-                    " AND InvoiceDate LIKE \'" + invoiceDate + "%\'" +
-                    " AND TotalCost = " + totalCost;
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                //Low level method. Just throw the exception using a readable stack trace.
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID +
+                " AND InvoiceDate LIKE \'" + invoiceDate + "%\'" +
+                " AND TotalCost = " + totalCost;
+            return sSQL;
         }
-
 
         /// <summary>
         /// This SQL gets all data on any invoices for a given Invoice Number and invoice Total Cost.
@@ -113,20 +73,10 @@ namespace Group6FinalProject.Search
         /// <returns>SQL string to get: All data for the selected invoices.</returns>
         public static string SelectInvoiceByIdCost(string sInvoiceID, string totalCost)
         {
-            try
-            {
-                string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID +
-                    " AND TotalCost = " + totalCost;
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                //Low level method. Just throw the exception using a readable stack trace.
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT * FROM Invoices WHERE InvoiceNum = " + sInvoiceID +
+                " AND TotalCost = " + totalCost;
+            return sSQL;
         }
-
 
         /// <summary>
         /// This SQL gets all data on any invoices for a given Invoice Date.
@@ -135,19 +85,9 @@ namespace Group6FinalProject.Search
         /// <returns>SQL string to get: All data for the selected invoices.</returns>
         public static string SelectInvoiceByDate(string invoiceDate)
         {
-            try
-            {
-                string sSQL = "SELECT * FROM Invoices WHERE InvoiceDate LIKE \'" + invoiceDate + "%\'";
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                //Low level method. Just throw the exception using a readable stack trace.
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT * FROM Invoices WHERE InvoiceDate LIKE \'" + invoiceDate + "%\'";
+            return sSQL;
         }
-
 
         /// <summary>
         /// This SQL gets all data on any invoices for a given Invoice Date and invoice Total Cost.
@@ -157,20 +97,10 @@ namespace Group6FinalProject.Search
         /// <returns>SQL string to get: All data for the selected invoices.</returns>
         public static string SelectInvoiceByDateCost(string invoiceDate, string totalCost)
         {
-            try
-            {
-                string sSQL = "SELECT * FROM Invoices WHERE InvoiceDate LIKE \'" + invoiceDate + "%\'" +
-                    " AND TotalCost = " + totalCost;
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                //Low level method. Just throw the exception using a readable stack trace.
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT * FROM Invoices WHERE InvoiceDate LIKE \'" + invoiceDate + "%\'" +
+                " AND TotalCost = " + totalCost;
+            return sSQL;
         }
-
 
         /// <summary>
         /// This SQL gets all data on any invoices with a given Total Cost.
@@ -179,17 +109,8 @@ namespace Group6FinalProject.Search
         /// <returns>SQL string to get: All data for the selected invoices.</returns>
         public static string SelectInvoiceByCost(string totalCost)
         {
-            try
-            {
-                string sSQL = "SELECT * FROM Invoices WHERE TotalCost = " + totalCost;
-                return sSQL;
-            }
-            catch (Exception ex)
-            {
-                //Low level method. Just throw the exception using a readable stack trace.
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
-                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
+            string sSQL = "SELECT * FROM Invoices WHERE TotalCost = " + totalCost;
+            return sSQL;
         }
         #endregion
     }

@@ -13,6 +13,7 @@ namespace Group6FinalProject.Main
 {
     class ClsMainLogic
     {
+        #region Constructor
         /// <summary>
         /// new database instance
         /// </summary>
@@ -28,36 +29,30 @@ namespace Group6FinalProject.Main
         /// </summary>
         public static ObservableCollection<ClsItem> InvoiceItemsList;    //this will be used to keep track of the list of items while it is being built, before it is saved
 
+        /// <summary>
+        /// Constructor thats set up database with ClsDataAccess Class
+        /// </summary>
         public ClsMainLogic()
         {
-            db = new clsDataAccess(); //setup database clsDataAcess w/ class
+            db = new clsDataAccess(); 
         }
-       
+        #endregion
 
+        #region methods
         /// <summary>
         /// A simple method to create a collection to use while adding items to new invoice
         /// </summary>
         public static void CreateNewItemCollection()
         {            
-            if(InvoiceItemsList != null)
-            {
-                InvoiceItemsList.Clear();
-            }
-            InvoiceItemsList = new ObservableCollection<ClsItem>();
-        }
-
-        /// <summary>
-        /// an easy method to simulate a button click when moving back to edit window
-        /// </summary>
-        public static void MoveToEdit()
-        {
             try
             {
-                WndMain.main.EditInvoiceCanvas.Visibility = Visibility.Visible;
-                WndMain.main.EditInvoiceWindowButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-
+                if (InvoiceItemsList != null)
+                {
+                    InvoiceItemsList.Clear();
+                }
+                InvoiceItemsList = new ObservableCollection<ClsItem>();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
@@ -158,8 +153,7 @@ namespace Group6FinalProject.Main
                     {
                         ItemCode = ds.Tables[0].Rows[i][0].ToString(),
                         ItemDescription = ds.Tables[0].Rows[i][1].ToString(),
-                        //ItemPrice = Decimal.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
-                        ItemPrice = Int32.Parse(ds.Tables[0].Rows[i][2].ToString())   //how to get actual decimal from database?
+                        ItemPrice = Int32.Parse(ds.Tables[0].Rows[i][2].ToString())   
                     };
                     itemsList.Add(ci);
                 }
@@ -274,6 +268,11 @@ namespace Group6FinalProject.Main
             }
         }
 
+        /// <summary>
+        /// update an invoice with new total price, delete invoice items from db and repopulate it from obj list
+        /// </summary>
+        /// <param name="invoiceNumber"></param>
+        /// <param name="newTotalPrice"></param>
         public static void UpdateInvoiceInformation(string invoiceNumber, int newTotalPrice)
         {
             try
@@ -299,6 +298,6 @@ namespace Group6FinalProject.Main
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
-
+        #endregion
     }
 }

@@ -33,7 +33,6 @@ namespace Group6FinalProject.Items
             try
             {
                 InitializeComponent();
-
                 updateWndItems(); // populates ItemsGridBox
             }
             catch (Exception ex)
@@ -124,8 +123,7 @@ namespace Group6FinalProject.Items
                 {
                     string itemCode = itemCodeTextBox.Text.ToString();
                     string itemDesc = itemDescTextBox.Text.ToString();
-                    int itemCost;
-                    Int32.TryParse(itemCostTextBox.Text.ToString(), out itemCost);
+                    Int32.TryParse(itemCostTextBox.Text.ToString(), out int itemCost);
 
                     ClsItemsLogic.NewItem(itemCode, itemDesc, itemCost);
 
@@ -236,7 +234,7 @@ namespace Group6FinalProject.Items
                     itemDescTextBox.Text = "";
                     itemCostTextBox.Text = "";
 
-                    e.Cancel = true;
+                    e.Cancel = true;                    
                     clsWindowManager.showMainWindow();
                 }
             }
@@ -255,8 +253,7 @@ namespace Group6FinalProject.Items
         {
             try
             {
-                int itemCost;
-                if (!Int32.TryParse(itemCostTextBox.Text, out itemCost))
+                if (!Int32.TryParse(itemCostTextBox.Text, out int itemCost))
                 {
                     e.Handled = true;
                 }
@@ -282,7 +279,7 @@ namespace Group6FinalProject.Items
                     e.Handled = true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
@@ -303,7 +300,7 @@ namespace Group6FinalProject.Items
                     e.Handled = true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 ClsHandleError.HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);

@@ -22,6 +22,10 @@ namespace Group6FinalProject
         /// </summary>
         public static Window SearchWindow { get; set; }
         /// <summary>
+        /// References the search window to be hidden
+        /// </summary>
+        public static Window ItemWindow { get; set; }
+        /// <summary>
         /// reference to the invoice selected by the user
         /// </summary>
         private static ClsInvoice selectedInvoice;
@@ -43,7 +47,6 @@ namespace Group6FinalProject
         }
         #endregion
 
-
         /// <summary>
         /// Used to hide SearchWindow and display MainWindow
         /// </summary>
@@ -53,9 +56,10 @@ namespace Group6FinalProject
             {
                 // only allowed to run if application isn't already closing down 
                 // (prevent exception of accessing previously closed windows)
-                if (MainWindow.IsVisible || SearchWindow.IsVisible)
+                if (MainWindow.IsVisible || SearchWindow.IsVisible || ItemWindow.IsVisible)
                 {
                     SearchWindow.Visibility = Visibility.Hidden;
+                    ItemWindow.Visibility = Visibility.Hidden;
                     MainWindow.Visibility = Visibility.Visible;
 
                     // calls main to check for a searched for invoice to display
